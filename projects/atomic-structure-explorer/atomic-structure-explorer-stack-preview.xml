@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Atomic Structure Explorer - Build a Neutral Atom</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Atomic Structure Explorer</h3>
+
+<p>
+In this activity you will investigate how protons, neutrons and electrons determine the properties of an atom.
+</p>
+
+<div style="border:1px solid #cccccc; padding:12px; background:#f8f8f8; margin-bottom:15px;">
+<p><strong>Before you start</strong></p>
+<ul>
+<li>The number of <strong>protons</strong> determines the element.</li>
+<li>The <strong>mass number</strong> equals protons + neutrons.</li>
+<li>The number of <strong>electrons</strong> determines the charge.</li>
+<li>A <strong>neutral atom</strong> has the same number of protons and electrons.</li>
+</ul>
+</div>
+
+<p>
+Use the sliders to construct the neutral atom described by the parameters below.
+</p>
+
+<p>
+Your target atom is <strong>{@atom_name@}-{@mass_number@}</strong>.
+</p>
+
+<p>
+Adjust the model until it matches these parameters:
+</p>
+
+<ul>
+<li>The element name is <strong>{@atom_name@}</strong>.</li>
+<li>The mass number is <strong>{@mass_number@}</strong>.</li>
+<li>The charge is <strong>0</strong>.</li>
+</ul>
+
+<p>
+When the model is correct, enter the final answers below and submit. STACK will check your final input.
+</p>
+
+[[jsxgraph input-ref-ans1="pInput" input-ref-ans2="nInput" input-ref-ans3="eInput" width="100%" height="620px"]]
+var root = document.getElementById(divid);
+root.style.border = "1px solid #dbe3ee";
+root.style.borderRadius = "16px";
+root.style.background = "linear-gradient(#ffffff,#fbfcfe)";
+root.style.overflow = "hidden";
+
+var pStack = document.getElementById(pInput);
+var nStack = document.getElementById(nInput);
+var eStack = document.getElementById(eInput);
+
+var elementNames = {
+  1: ["H", "Hydrogen"], 2: ["He", "Helium"], 3: ["Li", "Lithium"], 4: ["Be", "Beryllium"],
+  5: ["B", "Boron"], 6: ["C", "Carbon"], 7: ["N", "Nitrogen"], 8: ["O", "Oxygen"],
+  9: ["F", "Fluorine"], 10: ["Ne", "Neon"], 11: ["Na", "Sodium"], 12: ["Mg", "Magnesium"],
+  13: ["Al", "Aluminium"], 14: ["Si", "Silicon"], 15: ["P", "Phosphorus"], 16: ["S", "Sulfur"],
+  17: ["Cl", "Chlorine"], 18: ["Ar", "Argon"]
+};
+
+var state = {
+  p: {#start_protons#},
+  n: {#start_neutrons#},
+  e: {#start_electrons#}
+};
+
+var animationPhase = 0;
+var radii = [2, 3.3, 4.6];
+
+var board = JXG.JSXGraph.initBoard(divid, {
+  boundingbox: [-7.2, 6.8, 7.2, -6.8],
+  axis: false,
+  showCopyright: false,
+  showNavigation: false,
+  keepAspectRatio: true
+});
+
+var pSlider = board.create("slider", [[-5.8, -5.2], [-1.6, -5.2], [1, state.p, 18]], {
+  name: "Protons",
+  snapWidth: 1
+});
+
+var nSlider = board.create("slider", [[-5.8, -5.9], [-1.6, -5.9], [0, state.n, 22]], {
+  name: "Neutrons",
+  snapWidth: 1
+});
+
+var eSlider = board.create("slider", [[-5.8, -6.6], [-1.6, -6.6], [1, state.e, 18]], {
+  name: "Electrons",
+  snapWidth: 1
+});
+
+stack_jxg.bind_slider(pInput, pSlider);
+stack_jxg.bind_slider(nInput, nSlider);
+stack_jxg.bind_slider(eInput, eSlider);
+stack_jxg.define_group([pSlider, nSlider, eSlider]);
+stack_jxg.starts_moved(pSlider);
+stack_jxg.starts_moved(nSlider);
+stack_jxg.starts_moved(eSlider);
+
+/* Main atom diagram */
+board.create("circle", [[0,0],1], {
+  strokeColor:"#1976d2",
+  strokeWidth:2,
+  fillOpacity:0.06,
+  fixed:true
+});
+
+var shell1 = board.create("circle", [[0,0],2], {dash:2, strokeColor:"#1e88e5", fixed:true});
+var shell2 = board.create("circle", [[0,0],3.3], {dash:2, strokeColor:"#1e88e5", fixed:true});
+var shell3 = board.create("circle", [[0,0],4.6], {dash:2, strokeColor:"#1e88e5", fixed:true});
+
+board.create("text", [-0.28,0.14, function(){
+  return elementNames[state.p][0];
+}], {fontSize:24, fixed:true});
+
+/* Slider labels, aligned with the controls in the lower-left corner. */
+board.create("text", [-6.95,-5.05, function(){ return "Protons: " + Math.round(pSlider.Value()); }], {fontSize:14, fixed:true});
+board.create("text", [-6.95,-5.75, function(){ return "Neutrons: " + Math.round(nSlider.Value()); }], {fontSize:14, fixed:true});
+board.create("text", [-6.95,-6.45, function(){ return "Electrons: " + Math.round(eSlider.Value()); }], {fontSize:14, fixed:true});
+
+board.create("text", [3.8,6.25, function(){ return "Element: " + elementNames[Math.round(pSlider.Value())][0]; }], {fontSize:14, fixed:true});
+board.create("text", [3.8,5.75, function(){ return "Name: " + elementNames[Math.round(pSlider.Value())][1]; }], {fontSize:14, fixed:true});
+board.create("text", [3.8,5.25, function(){ return "Mass: " + (Math.round(pSlider.Value()) + Math.round(nSlider.Value())); }], {fontSize:14, fixed:true});
+board.create("text", [3.8,4.75, function(){
+  var ch = Math.round(pSlider.Value()) - Math.round(eSlider.Value());
+  return "Charge: " + (ch > 0 ? "+" + ch : ch);
+}], {fontSize:14, fixed:true});
+
+function nucleusCoordinate(index, total, axis, kind) {
+  var count = Math.max(total, 1);
+  var theta = (index * 2.399963229728653 + (kind === "p" ? 0.35 : 1.05)) % (2 * Math.PI);
+  var ring = Math.floor(index / 6);
+  var radius = 0.08 + ring * 0.12 + (index % 3) * 0.018;
+  var r = Math.min(radius, 0.42) * (kind === "p" ? 1 : 0.97);
+  if (axis === 0) {
+    return r * Math.cos(theta);
+  }
+  return r * Math.sin(theta);
+}
+
+function shellData(index, electronCount) {
+  if (index < 2) {
+    return {shell:0, pos:index, count:Math.min(electronCount,2), speed:0.9};
+  }
+  if (index < 10) {
+    return {shell:1, pos:index-2, count:Math.max(Math.min(electronCount-2,8),1), speed:0.6};
+  }
+  return {shell:2, pos:index-10, count:Math.max(electronCount-10,1), speed:0.4};
+}
+
+function electronCoordinate(index, axis) {
+  var electronCount = Math.round(eSlider.Value());
+  if (index >= electronCount) {
+    return 20;
+  }
+  var data = shellData(index, electronCount);
+  var baseAngle = (2*Math.PI*data.pos)/data.count;
+  var angle = baseAngle + animationPhase*data.speed;
+  if (axis === 0) {
+    return radii[data.shell]*Math.cos(angle);
+  }
+  return radii[data.shell]*Math.sin(angle);
+}
+
+function updateShellVisibility() {
+  var electronCount = Math.round(eSlider.Value());
+  shell1.setAttribute({visible: electronCount > 0});
+  shell2.setAttribute({visible: electronCount > 2});
+  shell3.setAttribute({visible: electronCount > 10});
+}
+
+function updateNucleusVisibility() {
+  var protonCount = Math.round(pSlider.Value());
+  var neutronCount = Math.round(nSlider.Value());
+
+  for (var i = 0; i < 18; i++) {
+    if (nucleusProtons[i]) {
+      nucleusProtons[i].setAttribute({
+        visible: i < protonCount
+      });
+    }
+  }
+
+  for (var j = 0; j < 22; j++) {
+    if (nucleusNeutrons[j]) {
+      nucleusNeutrons[j].setAttribute({
+        visible: j < neutronCount
+      });
+    }
+  }
+}
+
+var nucleusProtons = [];
+for (var p = 0; p < 18; p++) {
+  (function(k) {
+    nucleusProtons[k] = board.create("point", [
+      function(){ return nucleusCoordinate(k, Math.round(pSlider.Value()), 0, "p"); },
+      function(){ return nucleusCoordinate(k, Math.round(pSlider.Value()), 1, "p"); }
+    ], {
+      size: 4.4,
+      name: "",
+      withLabel: false,
+      fixed: true,
+      fillColor: "#ef5350",
+      strokeColor: "#c62828"
+    });
+  })(p);
+}
+
+var nucleusNeutrons = [];
+for (var n = 0; n < 22; n++) {
+  (function(k) {
+    nucleusNeutrons[k] = board.create("point", [
+      function(){ return nucleusCoordinate(k, Math.round(nSlider.Value()), 0, "n"); },
+      function(){ return nucleusCoordinate(k, Math.round(nSlider.Value()), 1, "n"); }
+    ], {
+      size: 4.4,
+      name: "",
+      withLabel: false,
+      fixed: true,
+      fillColor: "#42a5f5",
+      strokeColor: "#1565c0"
+    });
+  })(n);
+}
+
+for (var i=0; i<18; i++) {
+  (function(k) {
+    board.create("point", [
+      function(){ return electronCoordinate(k,0); },
+      function(){ return electronCoordinate(k,1); }
+    ], {
+      size:3,
+      name:"",
+      withLabel:false,
+      fixed:true,
+      fillColor:"#111111",
+      strokeColor:"#111111"
+    });
+  })(i);
+}
+
+updateShellVisibility();
+updateNucleusVisibility();
+board.update();
+
+function animate() {
+  animationPhase = animationPhase + 0.03;
+  updateShellVisibility();
+  updateNucleusVisibility();
+  board.update();
+  window.requestAnimationFrame(animate);
+}
+
+window.requestAnimationFrame(animate);
+[[/jsxgraph]]
+
+<p style="display:none;">
+[[input:ans1]] [[validation:ans1]]
+[[input:ans2]] [[validation:ans2]]
+[[input:ans3]] [[validation:ans3]]
+</p>
+
+<p>[[feedback:prt1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>
+For a neutral atom of <strong>{@atom_name@}-{@mass_number@}</strong>:
+</p>
+
+<ul>
+<li>Protons = atomic number = {@ta1@}</li>
+<li>Neutrons = mass number − atomic number = {@mass_number@} − {@atomic_number@} = {@ta2@}</li>
+<li>Electrons = protons for a neutral atom = {@ta3@}</li>
+</ul>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber>atomic_structure_explorer_build_atom</idnumber>
+    <stackversion>
+      <text>2025012100</text>
+    </stackversion>
+    <questionvariables>
+      <text>/* Atomic Structure Explorer - JSXGraph slider activity */
+
+atom_cases:[
+  [&quot;Carbon&quot;, &quot;C&quot;, 6, 14],
+  [&quot;Oxygen&quot;, &quot;O&quot;, 8, 16],
+  [&quot;Nitrogen&quot;, &quot;N&quot;, 7, 15],
+  [&quot;Sodium&quot;, &quot;Na&quot;, 11, 23],
+  [&quot;Magnesium&quot;, &quot;Mg&quot;, 12, 24],
+  [&quot;Aluminium&quot;, &quot;Al&quot;, 13, 27],
+  [&quot;Chlorine&quot;, &quot;Cl&quot;, 17, 35]
+];
+
+atom_index: rand(length(atom_cases))+1;
+
+atom_name: atom_cases[atom_index][1];
+atom_symbol: atom_cases[atom_index][2];
+atomic_number: atom_cases[atom_index][3];
+mass_number: atom_cases[atom_index][4];
+
+target_protons: atomic_number;
+target_neutrons: mass_number - atomic_number;
+target_electrons: atomic_number;
+
+/* Starting values deliberately different from the target. */
+start_protons: rand_with_prohib(1,18,[target_protons]);
+start_neutrons: rand_with_prohib(0,22,[target_neutrons]);
+start_electrons: rand_with_prohib(1,18,[target_electrons]);
+
+/* Teacher answers */
+ta1: target_protons;
+ta2: target_neutrons;
+ta3: target_electrons;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text><![CDATA[Atomic structure explorer | atom={@atom_index@} | start={@start_protons@},{@start_neutrons@},{@start_electrons@}]]></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text><![CDATA[Interactive JSXGraph activity where students use sliders to build a neutral isotope and observe element, mass and charge.]]></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed></variantsselectionseed>
+
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>hideanswer</options>
+    </input>
+
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>hideanswer</options>
+    </input>
+
+    <input>
+      <name>ans3</name>
+      <type>numerical</type>
+      <tans>ta3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>hideanswer</options>
+    </input>
+
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>p_student: round(ans1);
+n_student: round(ans2);
+e_student: round(ans3);
+
+p_ok: is(p_student = ta1);
+n_ok: is(n_student = ta2);
+e_ok: is(e_student = ta3);
+
+atom_ok: if p_ok and n_ok and e_ok then 1 else 0;</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description>Checks the proton, neutron and electron sliders.</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>atom_ok</sans>
+        <tans>1</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Correct. You built the neutral atom.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty>0.1</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Check the sliders again.</p>
+
+<ul>
+<li>Protons determine the element.</li>
+<li>Mass number = protons + neutrons.</li>
+<li>For a neutral atom, electrons = protons.</li>
+</ul>
+
+<p>
+For this atom, the target is:
+protons = {@ta1@}, neutrons = {@ta2@}, electrons = {@ta3@}.
+</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+
+    <qtest>
+      <testcase>1</testcase>
+      <description>Teacher answers receive full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

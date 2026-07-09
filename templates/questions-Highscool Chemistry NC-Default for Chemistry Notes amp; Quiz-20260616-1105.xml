@@ -1,0 +1,2989 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 0  -->
+  <question type="category">
+    <category>
+      <text><![CDATA[$module$/top/Default for Chemistry Notes &amp; Quiz]]></text>
+    </category>
+    <info format="moodle_auto_format">
+      <text><![CDATA[The default category for questions shared in context 'Chemistry Notes &amp; Quiz'.]]></text>
+    </info>
+    <idnumber></idnumber>
+  </question>
+
+<!-- question: 264316  -->
+  <question type="stack">
+    <name>
+      <text>1. Basic, non bound example of a graph</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Graphs that do not need to remember their state between page reloads are simple to build, just act like you would with the official JSXGraph filter. Note however that you do not need that filter as STACK provides its own implementation which has some handy features:</p><ul><li>STACK version does not allow you to name the div-element storing the graph, instead it gives you the name it has chosen in a variable named <code>divid</code>, the reason for this is that we ensure that each graph has an unique identifier and that there cannot exist name collisions, not even if you were to place the same question twice on the same page.</li><li>We provide a way to reference the input fields of the question and provide the identifiers of those input field elements if requested. The key benefit here is that we can provide those references in the same way regardless on the VLE you are running the question in, so you do not need to adapt the graph code if you decide to ditch Moodle and move ILIAS or some other system. (see more of this in the other examples of this category)</li><li>We also provide convenience functions to bind primitives (points and sliders) in the graph to STACK input fields so that you do not need to repeat that binding code yourself. Basically, single call to binding function will replace about twenty lines of code, more importantly we can change the implementation of the binding functions if the world changes so that you do not need to fix all your graphs with all their bindings.</li></ul><p><b>Note that as these graphs are coded in JavaScript you should not use WYSIWYG editors to edit these questions, as they tend to "helpfully" add random styling to random places and might break things. In Moodle do switch your text editor to 'plain text area', before editing these.</b></p><p>Now as a minimal example lets copy some example from JSXGraphs showcase library <a href="http://jsxgraph.uni-bayreuth.de/wiki/index.php/Showcases">http://jsxgraph.uni-bayreuth.de/wiki/index.php/Showcases</a>. Note, that we do not provide memory for this example, so it will revert to its initial state when the page reloads or you return to this page.</p><pre style="line-height:0.9;">[[escape value="[[jsxgraph width='500px' height='500px']]"/]]
+/* http://jsxgraph.uni-bayreuth.de/wiki/index.php/Five_Circle_Theorem */
+/* Only difference here to the example is the 'jxgbox' => divid replacement */
+/* so that the element name becomes dynamic. */
+var brd = JXG.JSXGraph.initBoard(divid, {boundingbox:[-5,5,5,-5]});
+var p = [], l = [], i = [], c = [], j = [], k;
+
+p[0] = brd.create('point',[-2.5,-3],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+p[1] = brd.create('point',[-0,4],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+p[2] = brd.create('point',[2.5,-3],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+p[3] = brd.create('point',[-4,0],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+p[4] = brd.create('point',[4,0],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+
+for (k=0;k<5;k++) {
+   l[k] = brd.create('segment',[p[k],p[(k+1)%5]],{strokeColor:'black',strokeWidth:1});
+}
+
+for (k=0;k<5;k++) {
+   i[k] = brd.create('intersection',[l[k],l[(k+2)%5],0],{name:'',strokeColor:'#EAEA00',fillColor:'#EAEA00'});
+}
+
+for (k=0;k<5;k++) {
+   c[k] = brd.create('circumcircle',[p[k],i[k],i[(k+2)%5]],{strokeColor:'gray', strokeWidth:1, point: {visible: false}});
+}
+for (k=0;k<5;k++) {
+   j[k] = brd.create('intersection',[c[k],c[(k+2)%5],0],{name:'',strokeColor:'#EA0000',fillColor:'#EA0000'});
+}
+
+var cc = brd.create('circumcircle',[j[0],j[2],j[3]],{strokeColor:'red',strokeWidth:2,point:{strokeColor:'#000000',fillColor:'#000000',size:1}});
+brd.update();
+[[escape value="[[/jsxgraph]]"/]]</pre><p>Renders as:</p>
+
+[[jsxgraph width='500px' height='500px']]
+/* http://jsxgraph.uni-bayreuth.de/wiki/index.php/Five_Circle_Theorem */
+/* Only difference here to the example is the 'jxgbox' => divid replacement */
+/* so that the element name becomes dynamic. */
+var brd = JXG.JSXGraph.initBoard(divid, {boundingbox:[-5,5,5,-5]});
+var p = [], l = [], i = [], c = [], j = [], k;
+
+p[0] = brd.create('point',[-2.5,-3],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+p[1] = brd.create('point',[-0,4],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+p[2] = brd.create('point',[2.5,-3],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+p[3] = brd.create('point',[-4,0],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+p[4] = brd.create('point',[4,0],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+
+for (k=0;k<5;k++) {
+   l[k] = brd.create('segment',[p[k],p[(k+1)%5]],{strokeColor:'black',strokeWidth:1});
+}
+
+for (k=0;k<5;k++) {
+   i[k] = brd.create('intersection',[l[k],l[(k+2)%5],0],{name:'',strokeColor:'#EAEA00',fillColor:'#EAEA00'});
+}
+
+for (k=0;k<5;k++) {
+   c[k] = brd.create('circumcircle',[p[k],i[k],i[(k+2)%5]],{strokeColor:'gray', strokeWidth:1, point: {visible: false}});
+}
+for (k=0;k<5;k++) {
+   j[k] = brd.create('intersection',[c[k],c[(k+2)%5],0],{name:'',strokeColor:'#EA0000',fillColor:'#EA0000'});
+}
+
+var cc = brd.create('circumcircle',[j[0],j[2],j[3]],{strokeColor:'red',strokeWidth:2,point:{strokeColor:'#000000',fillColor:'#000000',size:1}});
+brd.update();
+[[/jsxgraph]]]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2020040300</text>
+    </stackversion>
+    <questionvariables>
+      <text></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text></text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed></variantsselectionseed>
+  </question>
+
+<!-- question: 264317  -->
+  <question type="stack">
+    <name>
+      <text><![CDATA[2. "Binding", what does it mean?]]></text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>"Binding", in the context of STACK + JSXGraph integration, means connecting the value of a STACK input field to some element in the graph. If the element gets moved the input field's value is also changed. In the simplest example if you drag a slider from value 1 to value 2 the bound input will be set to 2. This is obviously important when you wish to use that part of the graph as an input.  Also, as the VLE in the background stores the values of the input fields we can start remembering state. E.g. f you dragged the slider to value 2 and left the page then the binding logic should be able to ensure that the slider gets placed back to that same value if you return to the page.</p><p>As an simplified example of this we now build a graph with a line segment which has two draggable end points one of which is bound and one which is not. Drag the two points around and then press 'Check'.  When the checking process reloads the page you should see the bound one staying where you dragged it to and the other to return into its initial position. You should also see that the STACK logic side received the position of the bound point.</p><pre style="line-height:0.9;">[[escape value="[[jsxgraph input-ref-ans1='ans1Ref']]"/]]
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});
+var p1 = board.create('point', [-3,3], {name:'Bound',size:4});
+var p2 = board.create('point', [3,-3], {name:'Free',size:4});
+var line = board.create('line', [p1,p2], {straightFirst:false, straightLast:false});
+
+/* There exists a simple convenience method for binding inputs to points
+    It just needs an input reference, defined as a parameter of the jsxgraph-block
+    and a primitive object of the type of the binding, in this case a point. */
+stack_jxg.bind_point(ans1Ref, p1);
+
+/* Always call board.update() at the end if you have bindings. */
+board.update();
+
+/* In this example we hide the input as we are not yet ready to talk about two-way binding. */
+document.getElementById(ans1Ref).style.display = 'none';
+[[escape value="[[/jsxgraph]]"/]]</pre>
+
+[[jsxgraph input-ref-ans1='ans1Ref']]
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5], showNavigation:false});
+var p1 = board.create('point', [-3,3], {name:'Bound',size:4});
+var p2 = board.create('point', [3,-3], {name:'Free',size:4});
+var line = board.create('line', [p1,p2], {straightFirst:false, straightLast:false});
+
+/* There exists a simple convenience method for binding inputs to points
+   It just needs an input reference, defined as a parameter of the jsxgraph-block
+   and a primitive object of the type of the binding, in this case a point. */
+stack_jxg.bind_point(ans1Ref, p1);
+
+/* Always call board.update() at the end if you have bindings, as they may move things around. */
+board.update();
+
+/* In this example we hide the input as we are not yet ready to talk about two-way binding. */
+document.getElementById(ans1Ref).style.display = 'none';
+[[/jsxgraph]]
+
+<p><i>As a special test case here, try moving the bound one out of the box. For that to work the binding needs to track not only direct actions affecting the point but also changes caused by other actions. Those needing to build their own binding logic for more complex things should note this. Simply tracking the point may not be enough.</i></p><p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2020040300</text>
+    </stackversion>
+    <questionvariables>
+      <text></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>[1,1]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ans1</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>The value of the input is {#ans1#}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+<!-- question: 264318  -->
+  <question type="stack">
+    <name>
+      <text><![CDATA[3. "Two-way binding", what does that mean?]]></text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>In the previous example the binding transfers the position of both something in the graph to the input and retrieves the stored value of the input on page reload. Basically, one way binding is when the action in a graph changes setting the input value. For two way binding we also track the input value after the page has loaded so that if it changes due to any action we change the graph.</p><p><b>Now why would we want to do that when the graph itself sets the value!?</b></p><ul><li>We might want to provide the input field as a visible editable field so that if the student cannot drag e.g. the slider in the graph they can write the value into the input and the graph reacts as if the thing was moved there, this may be necessary in some cases, but it is not that useful generally.</li><li>More likely is the case where we have multiple graphs connected to the same input and we want them to move in sync when something is done in any one of them.</li><li>We could also have scripting outside the graph that could act on the value on the input(s) in some way and connecting to that might be difficult, but it is much simpler to connect to the input directly and our binding does just that.</li></ul><p>This time you will need to open the questions source to see the code for these graphs, the key here being that each of them reference that same input and bind their slider to it.</p><table><tr><td>Area slider: [[input:ans1]] [[validation:ans1]]<br/>
+Test point: [[input:ans2]] [[validation:ans2]]</td><td>
+[[jsxgraph width='400px' height='400px' input-ref-ans1='ans1Ref' input-ref-ans2='ans2Ref']]
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-4.5, 4.5, 4.5, -4.5], showNavigation:false, grid:true});
+
+var s1 =  board.create('slider',[[-4,4],[-1,4],[1,1,7]],{name: 'Area', snapWidth: 1, ticks: { drawLabels: true }});
+stack_jxg.bind_slider(ans1Ref, s1);
+
+var p = board.create('point', [4, 3]);
+stack_jxg.bind_point(ans2Ref, p);
+
+var c = board.create('point',[0,0],{visible: false});
+
+var circle = board.create('circle',[c,Math.sqrt(s1.Value()/Math.PI)], {frozen:true, fixed:true, method:'pointRadius'});
+circle.setRadius(function() {return Math.sqrt(s1.Value()/Math.PI);});
+
+board.update();
+[[/jsxgraph]]
+</td></tr><tr><td>
+[[jsxgraph width='400px' height='400px' input-ref-ans1='ans1Ref' input-ref-ans2='ans2Ref']]
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-4.5, 4.5, 4.5, -4.5], showNavigation:false, grid:true});
+
+var s1 =  board.create('slider',[[-4,4],[-1,4],[1,1,7]],{name: 'Area', snapWidth: 1, ticks: { drawLabels: true }});
+stack_jxg.bind_slider(ans1Ref, s1);
+
+var p = board.create('point', [4, 3]);
+stack_jxg.bind_point(ans2Ref, p);
+
+var hw = function(){
+ return Math.sqrt(s1.Value())/2.0;
+}
+
+var p1 = board.create('point',[function(){return hw();},function(){return hw();}],{visible: false});
+var p2 = board.create('point',[function(){return hw();},function(){return -hw();}],{visible: false});
+var p3 = board.create('point',[function(){return -hw();},function(){return -hw();}],{visible: false});
+var p4 = board.create('point',[function(){return -hw();},function(){return hw();}],{visible: false});
+
+var ploygon = board.create('polygon',[p1,p2,p3,p4],{frozen:true, fixed:true});
+
+board.update();
+[[/jsxgraph]]
+</td><td>
+[[jsxgraph width='400px' height='400px' input-ref-ans1='ans1Ref' input-ref-ans2='ans2Ref']]
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-4.5, 4.5, 4.5, -4.5], showNavigation:false, grid:true});
+
+var s1 =  board.create('slider',[[-4,4],[-1,4],[1,1,7]],{name: 'Area', snapWidth: 1, ticks: { drawLabels: true }});
+stack_jxg.bind_slider(ans1Ref, s1);
+
+var p = board.create('point', [4, 3]);
+stack_jxg.bind_point(ans2Ref, p);
+
+var c = board.create('point',[0,0],{visible: false});
+
+var circle = board.create('circle',[c,Math.sqrt(s1.Value()/Math.PI)], {frozen:true, fixed:true, method:'pointRadius'});
+circle.setRadius(function() {return Math.sqrt(s1.Value()/Math.PI);});
+
+board.update();
+[[/jsxgraph]]
+</td></tr></table><p><i>Note that in this example if you write a valid value that the slider does not allow the slider will map that value to a value it allows and the binding to the other way will fix the input value. Basically, this slider has specific fixed ticks and those are enforced even in the input.</i></p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2020040300</text>
+    </stackversion>
+    <questionvariables>
+      <text></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>[1,1]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ans1</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>[1,1]</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 264319  -->
+  <question type="stack">
+    <name>
+      <text>4. JSON and complex binding.</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>The previous examples have shown the use of simplified binding of single primitives to single inputs, that should cover most use cases but once you start to do more complex things you will need to start building your own binding logic. Some examples of such situations are:</p><ul><li>Creation and deletion of arbitrary numbers of points/objects in graph cannot be tracked with one input per object logic as you cannot create inputs. In these cases you need to store more structure into inputs.</li><li>Not dealing with the positions of things might also be an obvious case, if you want to for example track the order the student clicks some edges in some graph use of the simple binding tools will not help.</li></ul><p>Basically, you cannot use one-to-one input-object-binding if you have dynamic number of objects. To deal with this you need to have some form of data-structures (simple lists of coordinates are often enough but once you have multiple types of things with connections between them you will probably want more) that you can store that represent the state of your graph. As you are authoring JSXGraph graphs in JavaScript the obvious structures are JavaScript objects/dictionaries and lists, luckily those can easily be turned to JSON strings that can be stored into String input fields. And what is important STACK now provides a way for parsing those JSON strings on Maxima side so that you can process the values there.</p><pre style="line-height:0.9;">[[escape value="[[jsxgraph height='700px' width='700px' input-ref-ans1='ans1Ref']]"/]]
+/* In this example ans1 is a String type input, which is important as the value we store 
+   there is most definitely not a valid Maxima expression. */
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});
+
+/* We will store our points here. */
+var points = new Array();
+var i = 0;
+
+/* If we have stored state of points we will resurrect them now. */
+var theInput = document.getElementById(ans1Ref);
+if (theInput.value && theInput.value != '') {
+ var pointList = JSON.parse(theInput.value);
+ for (i=0; i&lt;pointList.length; i++) {
+  var p = board.create('point', [pointList[i]['x'],pointList[i]['y']], {name:'',color:pointList[i]['color']});
+  points[i] = p;
+ } 
+}
+
+/* Lets create some magic, in this example dragging points through specific areas changes 
+   the color of the points. And there is an area that both creates and deletes points. */
+
+var source = board.create('circle',[board.create('point',[-4,-4],{visible: false}),0.7], {  strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+var red = board.create('circle',[board.create('point',[0,-4],{visible: false}),0.7], {  strokeColor:'red',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+var green = board.create('circle',[board.create('point',[2,-4],{visible: false}),0.7], {    strokeColor:'green',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+var blue = board.create('circle',[board.create('point',[4,-4],{visible: false}),0.7], { strokeColor:'blue',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+
+/* A function the we can tie to points so that their color changes. */
+var colorDragListener = function() {
+ /* this in this context should be the point. */
+ if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {
+  this.setAttribute({color:'black'});
+ } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[red.center.X(),red.center.Y()]) &lt; red.Radius()) {
+  this.setAttribute({color:'red'});
+ } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[green.center.X(),green.center.Y()]) &lt; green.Radius()) {
+  this.setAttribute({color:'green'});
+ } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[blue.center.X(),blue.center.Y()]) &lt; blue.Radius()) {
+  this.setAttribute({color:'blue'});
+ }
+}
+
+/* Another function to handle the release of dragged points and the storage of the state. */
+var dropHandler = function() {
+ /* this in this context should be the point. */
+ var newOne = points.indexOf(this);
+ if (newOne == -1) {
+  /* This is a new one depending on where it was dropped we do things. */
+  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {
+   /* When dropped into the source, reset the point. */
+   this.moveTo([source.center.X(),source.center.Y()],100);
+   this.setAttribute({color:'black'});
+  } else {
+   /* it is now in play add it to the list. */
+   points[points.length] = this;
+   /* also initialise a new point in the source. */
+   var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});
+   p.on('drag',colorDragListener);
+   p.on('up',dropHandler);
+  }
+ } else {
+  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {
+   /* When dropped into the source delete this point as this is an existing point. */
+   points.splice(newOne, 1);
+   this.board.removeObject(this);
+  }
+  /* Otherwise all fine. */
+ }
+
+ /* Then construct the state. Basically, map the points to a specific form, in this example the form is 
+    a bit too complex as it includes an object/dictionary when a list would have worked but maybe this
+    will come in handy elsewhere. */
+ var newState = new Array();
+ for (i=0; i&lt;points.length; i++) {
+  var P = {'x':points[i].X(),'y':points[i].Y(),'color':points[i].getAttribute('color')};
+  newState[i] = P;
+ }
+ theInput.value = JSON.stringify(newState);
+
+ /* NOTE! You will need to do certain things to make the VLE around you know that things happen, 
+    for this reason we need to generate a "change" event. In the case of Moodle and this question the event
+    marks the form modified and causes a warning if the page is left through non saving routes. */
+ var e = new Event('change');
+ theInput.dispatchEvent(e);
+}
+
+
+/* This is the intial point. */
+var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});
+p.on('drag',colorDragListener);
+p.on('up',dropHandler);
+
+/* Remember that the points from stored state must also be tied to the listeners if present. */
+for (i=0; i&lt;points.length; i++) {
+ points[i].on('drag',colorDragListener);
+ points[i].on('up',dropHandler);
+}
+
+/* Always call board.update() at the end if you have bindings. */
+board.update();
+
+/* In this example we hide the input as it will get absurd very soon. */
+document.getElementById(ans1Ref).style.display = 'none';
+[[escape value="[[/jsxgraph]]"/]]
+</pre>
+
+[[jsxgraph height='700px' width='700px' input-ref-ans1='ans1Ref']]
+/* In this example ans1 is a String type input, which is important as the value we store 
+   there is most definitely not a valid Maxima expression. */
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});
+
+/* We will store our points here. */
+var points = new Array();
+var i = 0;
+
+/* If we have stored state of points we will resurrect them now. */
+var theInput = document.getElementById(ans1Ref);
+if (theInput.value && theInput.value != '') {
+ var pointList = JSON.parse(theInput.value);
+ for (i=0; i<pointList.length; i++) {
+  var p = board.create('point', [pointList[i]['x'],pointList[i]['y']], {name:'',color:pointList[i]['color']});
+  points[i] = p;
+ } 
+}
+
+/* Lets create some magic, in this example dragging points through specific areas changes 
+   the color of the points. And there is an area that both creates and deletes points. */
+
+var source = board.create('circle',[board.create('point',[-4,-4],{visible: false}),0.7], {  strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+var red = board.create('circle',[board.create('point',[0,-4],{visible: false}),0.7], {  strokeColor:'red',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+var green = board.create('circle',[board.create('point',[2,-4],{visible: false}),0.7], {    strokeColor:'green',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+var blue = board.create('circle',[board.create('point',[4,-4],{visible: false}),0.7], { strokeColor:'blue',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+
+/* A function the we can tie to points so that their color changes. */
+var colorDragListener = function() {
+ /* this in this context should be the point. */
+ if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) < source.Radius()) {
+  this.setAttribute({color:'black'});
+ } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[red.center.X(),red.center.Y()]) < red.Radius()) {
+  this.setAttribute({color:'red'});
+ } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[green.center.X(),green.center.Y()]) < green.Radius()) {
+  this.setAttribute({color:'green'});
+ } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[blue.center.X(),blue.center.Y()]) < blue.Radius()) {
+  this.setAttribute({color:'blue'});
+ }
+}
+
+/* Another function to handle the release of dragged points and the storage of the state. */
+var dropHandler = function() {
+ /* this in this context should be the point. */
+ var newOne = points.indexOf(this);
+ if (newOne == -1) {
+  /* This is a new one depending on where it was dropped we do things. */
+  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) < source.Radius()) {
+   /* When dropped into the source, reset the point. */
+   this.moveTo([source.center.X(),source.center.Y()],100);
+   this.setAttribute({color:'black'});
+  } else {
+   /* it is now in play add it to the list. */
+   points[points.length] = this;
+   /* also initialise a new point in the source. */
+   var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});
+   p.on('drag',colorDragListener);
+   p.on('up',dropHandler);
+  }
+ } else {
+  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) < source.Radius()) {
+   /* When dropped into the source delete this point as this is an existing point. */
+   points.splice(newOne, 1);
+   this.board.removeObject(this);
+  }
+  /* Otherwise all fine. */
+ }
+
+ /* Then construct the state. Basically, map the points to a specific form, in this example the form is 
+    a bit too complex as it includes an object/dictionary when a list would have worked but maybe this
+    will come in handy elsewhere. */
+ var newState = new Array();
+ for (i=0; i<points.length; i++) {
+  var P = {'x':points[i].X(),'y':points[i].Y(),'color':points[i].getAttribute('color')};
+  newState[i] = P;
+ }
+ theInput.value = JSON.stringify(newState);
+
+ /* NOTE! You will need to do certain things to make the VLE around you know that things happen, 
+    for this reason we need to generate a "change" event. In the case of Moodle and this question the event
+    marks the form modified and causes a warning if the page is left through non saving routes. */
+ var e = new Event('change');
+ theInput.dispatchEvent(e);
+}
+
+
+/* This is the intial point. */
+var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});
+p.on('drag',colorDragListener);
+p.on('up',dropHandler);
+
+/* Remember that the points from stored state must also be tied to the listeners if present. */
+for (i=0; i<points.length; i++) {
+ points[i].on('drag',colorDragListener);
+ points[i].on('up',dropHandler);
+}
+
+/* Always call board.update() at the end if you have bindings. */
+board.update();
+
+/* In this example we hide the input as it will get absurd very soon. */
+document.getElementById(ans1Ref).style.display = 'none';
+[[/jsxgraph]]
+
+<p>Drag some points around and press check, as expected the points stay in place. The feedback should also show you the raw stored state and some very simple numbers collected from it. You may wish to check the feedback logic but it has very little to show.</p><p>In STACK 4.4 a simplified way of doing custom binding was added, if you need to do this you might wish to look into it, there should be a new sample of that.</p><p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2020040300</text>
+    </stackversion>
+    <questionvariables>
+      <text></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>string</type>
+      <tans><![CDATA[""]]></tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[/* First parse the input string, depending on what it is we can get a list, a stackmap, an integer, a float, a string or und if nothing is found. */
+parsed: stackjson_parse(ans1);
+/* As we will most likely get an list of stackmaps we can just split that list based on which of the elements have which colors like this. We may get und, do try to figure out why and when. */
+red:if is(parsed=und) then 0 else length(sublist(parsed, lambda([x], stackmap_get(x,"color")="red")));
+green:if is(parsed=und) then 0 else length(sublist(parsed, lambda([x], stackmap_get(x,"color")="green")));
+blue:if is(parsed=und) then 0 else length(sublist(parsed, lambda([x], stackmap_get(x,"color")="blue")));
+black:if is(parsed=und) then 0 else length(sublist(parsed, lambda([x], stackmap_get(x,"color")="black")));
+/* As an exercise you might want to evaluate the means of coordinates of each color group and draw a suitable picture in the feedback... note however that feedback plots cannot reference inputs. */
+
+/* STACK can also output JSON if need be and stackmap objects can be used in other places too, but are very inconvenient when dealing with modifications to deep structures. To find out more about what is available just check the "stackstrings.mac" file it defines the functions. */]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ans1</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>In the input we have {@if is(parsed=und) then 0 else length(parsed)@} points. By color (red/green/blue/black) {@red@}/{@green@}/{@blue@}/{@black@}.</p><p>The raw value of the input is <pre>{@ans1@}</pre></p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+<!-- question: 264315  -->
+  <question type="stack">
+    <name>
+      <text>Atomic Structure Explorer - Build a Neutral Atom</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Atomic Structure Explorer</h3>
+
+<p>
+In this activity you will investigate how protons, neutrons and electrons determine the properties of an atom.
+</p>
+
+<div style="border:1px solid #cccccc; padding:12px; background:#f8f8f8; margin-bottom:15px;">
+<p><strong>Before you start</strong></p>
+<ul>
+<li>The number of <strong>protons</strong> determines the element.</li>
+<li>The <strong>mass number</strong> equals protons + neutrons.</li>
+<li>The number of <strong>electrons</strong> determines the charge.</li>
+<li>A <strong>neutral atom</strong> has the same number of protons and electrons.</li>
+</ul>
+</div>
+
+<p>
+Use the sliders below to build a neutral atom of
+<strong>{@atom_name@}-{@mass_number@}</strong>.
+</p>
+
+<p>
+To complete the challenge, make sure the display shows:
+</p>
+
+<ul>
+<li>Element: <strong>{@atom_name@}</strong></li>
+<li>Mass: <strong>{@mass_number@}</strong></li>
+<li>Charge: <strong>0</strong></li>
+</ul>
+
+[[jsxgraph input-ref-ans1="pInput" input-ref-ans2="nInput" input-ref-ans3="eInput" width="100%" height="620px"]]
+var root = document.getElementById(divid);
+root.style.border = "1px solid #dbe3ee";
+root.style.borderRadius = "16px";
+root.style.background = "linear-gradient(#ffffff,#fbfcfe)";
+root.style.overflow = "hidden";
+
+var pStack = document.getElementById(pInput);
+var nStack = document.getElementById(nInput);
+var eStack = document.getElementById(eInput);
+
+var elementNames = {
+  1: ["H", "Hydrogen"], 2: ["He", "Helium"], 3: ["Li", "Lithium"], 4: ["Be", "Beryllium"],
+  5: ["B", "Boron"], 6: ["C", "Carbon"], 7: ["N", "Nitrogen"], 8: ["O", "Oxygen"],
+  9: ["F", "Fluorine"], 10: ["Ne", "Neon"], 11: ["Na", "Sodium"], 12: ["Mg", "Magnesium"],
+  13: ["Al", "Aluminium"], 14: ["Si", "Silicon"], 15: ["P", "Phosphorus"], 16: ["S", "Sulfur"],
+  17: ["Cl", "Chlorine"], 18: ["Ar", "Argon"]
+};
+
+var state = {
+  p: {#start_protons#},
+  n: {#start_neutrons#},
+  e: {#start_electrons#}
+};
+
+var animationPhase = 0;
+var radii = [2, 3.3, 4.6];
+
+var board = JXG.JSXGraph.initBoard(divid, {
+  boundingbox: [-7.2, 6.8, 7.2, -6.8],
+  axis: false,
+  showCopyright: false,
+  showNavigation: false,
+  keepAspectRatio: true
+});
+
+/* Main atom diagram */
+board.create("circle", [[0,0],1], {
+  strokeColor:"#1976d2",
+  strokeWidth:2,
+  fillOpacity:0.06,
+  fixed:true
+});
+
+board.create("circle", [[0,0],2], {dash:2, strokeColor:"#1e88e5", fixed:true});
+board.create("circle", [[0,0],3.3], {dash:2, strokeColor:"#1e88e5", fixed:true});
+board.create("circle", [[0,0],4.6], {dash:2, strokeColor:"#1e88e5", fixed:true});
+
+board.create("text", [-0.28,0.14, function(){
+  return elementNames[state.p][0];
+}], {fontSize:24, fixed:true});
+
+/* Display information inside the board. */
+board.create("text", [-6.9,6.25, function(){ return "Protons: " + state.p; }], {fontSize:14, fixed:true});
+board.create("text", [-6.9,5.75, function(){ return "Neutrons: " + state.n; }], {fontSize:14, fixed:true});
+board.create("text", [-6.9,5.25, function(){ return "Electrons: " + state.e; }], {fontSize:14, fixed:true});
+
+board.create("text", [3.8,6.25, function(){ return "Element: " + elementNames[state.p][0]; }], {fontSize:14, fixed:true});
+board.create("text", [3.8,5.75, function(){ return "Name: " + elementNames[state.p][1]; }], {fontSize:14, fixed:true});
+board.create("text", [3.8,5.25, function(){ return "Mass: " + (state.p + state.n); }], {fontSize:14, fixed:true});
+board.create("text", [3.8,4.75, function(){
+  var ch = state.p - state.e;
+  return "Charge: " + (ch > 0 ? "+" + ch : ch);
+}], {fontSize:14, fixed:true});
+
+function shellData(index, electronCount) {
+  if (index < 2) {
+    return {shell:0, pos:index, count:Math.min(electronCount,2), speed:0.9};
+  }
+  if (index < 10) {
+    return {shell:1, pos:index-2, count:Math.max(Math.min(electronCount-2,8),1), speed:0.6};
+  }
+  return {shell:2, pos:index-10, count:Math.max(electronCount-10,1), speed:0.4};
+}
+
+function electronCoordinate(index, axis) {
+  var electronCount = state.e;
+  if (index >= electronCount) {
+    return 20;
+  }
+  var data = shellData(index, electronCount);
+  var baseAngle = (2*Math.PI*data.pos)/data.count;
+  var angle = baseAngle + animationPhase*data.speed;
+  if (axis === 0) {
+    return radii[data.shell]*Math.cos(angle);
+  }
+  return radii[data.shell]*Math.sin(angle);
+}
+
+for (var i=0; i<18; i++) {
+  (function(k) {
+    board.create("point", [
+      function(){ return electronCoordinate(k,0); },
+      function(){ return electronCoordinate(k,1); }
+    ], {
+      size:3,
+      name:"",
+      withLabel:false,
+      fixed:true,
+      fillColor:"#e46f0e",
+      strokeColor:"#e46f0e"
+    });
+  })(i);
+}
+
+/* Create HTML sliders below the board. */
+var oldPanel = document.getElementById(divid + "_controls");
+if (oldPanel) {
+  oldPanel.parentNode.removeChild(oldPanel);
+}
+
+var panel = document.createElement("div");
+panel.id = divid + "_controls";
+panel.style.margin = "14px 0 18px 0";
+panel.style.padding = "14px";
+panel.style.border = "1px solid #e0d6c8";
+panel.style.borderRadius = "14px";
+panel.style.background = "#fffaf0";
+
+function makeControl(label, min, max, value, onChange) {
+  var wrap = document.createElement("div");
+  wrap.style.marginBottom = "14px";
+
+  var title = document.createElement("div");
+  title.style.display = "flex";
+  title.style.justifyContent = "space-between";
+  title.style.fontWeight = "700";
+  title.style.fontSize = "16px";
+  title.style.marginBottom = "6px";
+
+  var lab = document.createElement("span");
+  lab.textContent = label;
+
+  var read = document.createElement("span");
+  read.style.color = "#1976d2";
+  read.textContent = value;
+
+  var slider = document.createElement("input");
+  slider.type = "range";
+  slider.min = min;
+  slider.max = max;
+  slider.step = 1;
+  slider.value = value;
+  slider.style.width = "100%";
+
+  title.appendChild(lab);
+  title.appendChild(read);
+  wrap.appendChild(title);
+  wrap.appendChild(slider);
+
+  slider.addEventListener("input", function() {
+    var v = Math.round(Number(slider.value));
+    read.textContent = v;
+    onChange(v);
+    syncToStack();
+    board.update();
+  });
+
+  panel.appendChild(wrap);
+  return slider;
+}
+
+function syncToStack() {
+  pStack.value = state.p;
+  nStack.value = state.n;
+  eStack.value = state.e;
+  pStack.dispatchEvent(new Event("change"));
+  nStack.dispatchEvent(new Event("change"));
+  eStack.dispatchEvent(new Event("change"));
+}
+
+makeControl("Protons", 1, 18, state.p, function(v){ state.p = v; });
+makeControl("Neutrons", 0, 22, state.n, function(v){ state.n = v; });
+makeControl("Electrons", 1, 18, state.e, function(v){ state.e = v; });
+
+root.parentNode.insertBefore(panel, root.nextSibling);
+
+syncToStack();
+
+function animate() {
+  animationPhase = animationPhase + 0.03;
+  board.update();
+  window.requestAnimationFrame(animate);
+}
+
+window.requestAnimationFrame(animate);
+[[/jsxgraph]]
+
+<p style="display:none;">
+[[input:ans1]] [[validation:ans1]]
+[[input:ans2]] [[validation:ans2]]
+[[input:ans3]] [[validation:ans3]]
+</p>
+
+<p>
+Submit when you have built the correct neutral atom.
+</p>
+
+<p>[[feedback:prt1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>
+For a neutral atom of <strong>{@atom_name@}-{@mass_number@}</strong>:
+</p>
+
+<ul>
+<li>Protons = atomic number = {@ta1@}</li>
+<li>Neutrons = mass number − atomic number = {@mass_number@} − {@atomic_number@} = {@ta2@}</li>
+<li>Electrons = protons for a neutral atom = {@ta3@}</li>
+</ul>]]></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber>atomic_structure_explorer_build_atom</idnumber>
+    <stackversion>
+      <text>2025012100</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* Atomic Structure Explorer - JSXGraph slider activity */
+
+atom_cases:[
+  ["Carbon", "C", 6, 14],
+  ["Oxygen", "O", 8, 16],
+  ["Nitrogen", "N", 7, 15],
+  ["Sodium", "Na", 11, 23],
+  ["Magnesium", "Mg", 12, 24],
+  ["Aluminium", "Al", 13, 27],
+  ["Chlorine", "Cl", 17, 35]
+];
+
+atom_index: rand(length(atom_cases))+1;
+
+atom_name: atom_cases[atom_index][1];
+atom_symbol: atom_cases[atom_index][2];
+atomic_number: atom_cases[atom_index][3];
+mass_number: atom_cases[atom_index][4];
+
+target_protons: atomic_number;
+target_neutrons: mass_number - atomic_number;
+target_electrons: atomic_number;
+
+/* Starting values deliberately different from the target. */
+start_protons: rand_with_prohib(1,18,[target_protons]);
+start_neutrons: rand_with_prohib(0,22,[target_neutrons]);
+start_electrons: rand_with_prohib(1,18,[target_electrons]);
+
+/* Teacher answers */
+ta1: target_protons;
+ta2: target_neutrons;
+ta3: target_electrons;]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>Atomic structure explorer | atom={@atom_index@} | start={@start_protons@},{@start_neutrons@},{@start_electrons@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text>Interactive JSXGraph activity where students use sliders to build a neutral isotope and observe element, mass and charge.</text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>hideanswer</options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>hideanswer</options>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>numerical</type>
+      <tans>ta3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>hideanswer</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>p_student: round(ans1);
+n_student: round(ans2);
+e_student: round(ans3);
+
+p_ok: is(p_student = ta1);
+n_ok: is(n_student = ta2);
+e_ok: is(e_student = ta3);
+
+atom_ok: if p_ok and n_ok and e_ok then 1 else 0;</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description>Checks the proton, neutron and electron sliders.</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>atom_ok</sans>
+        <tans>1</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Correct. You built the neutral atom.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty>0.1</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Check the sliders again.</p>
+
+<ul>
+<li>Protons determine the element.</li>
+<li>Mass number = protons + neutrons.</li>
+<li>For a neutral atom, electrons = protons.</li>
+</ul>
+
+<p>
+For this atom, the target is:
+protons = {@ta1@}, neutrons = {@ta2@}, electrons = {@ta3@}.
+</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Teacher answers receive full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 264321  -->
+  <question type="stack">
+    <name>
+      <text>JSXGraph and validation [TECH DEMO]</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Graph construction trainer</h4><p>Build a directed graph such that:</p><ol><li>There exists at least one vertex into which there exists a direct edge coming from all other vertices.</li><li>There exists a set of three vertices that have direct bi-directional connections with each other.</li><li>There exists at least one vertex to which no edge points to.</li></ol>
+
+[[comment]] 
+The actual graphing logic is fairly generic, so modifying the code makes little sense
+this is why all the relevant bits that might require overriding use the template logic where we
+can define a value for a given portion that will then be used instead of the default value. In this
+case, we override the default initial configuration.
+[[/comment]]
+[[template name="graph_init_code"]]
+create_node(1,4);
+create_node(-6,3);
+create_node(-1,-2);
+create_edge(nodes[1], nodes[2]);
+create_edge(nodes[1], nodes[3]);
+[[/template]]
+
+[[jsxgraph input-ref-ans1="state" width="40em" aspect-ratio="1.4"]]
+[[style]]
+[[comment]]Add some extra CSS style to the JSXGraph iframe[[/comment]]
+div.connectButton button {
+ font-size: 1.8em;
+}
+div.disconnectButton button{
+ font-size: 1.5em;
+ color: red;
+}
+[[/style]]
+
+/* Slightly cut down the decimals in the output.*/
+JXG.Options.point.snapToGrid = true;
+JXG.Options.point.snapSizeX = 0.5;
+JXG.Options.point.snapSizeY = 0.5;
+
+/* A perfectly normal board. With keyboard accessibility tuned. */
+const board = JXG.JSXGraph.initBoard(divid, {showNavigation:false, boundingbox: [-10, 6, 10, -10], keyboard: {enabled: true, panShift:false, panCtrl:false}});
+/* Keyboard navigation needs tabindices, here even items that are hidden or 
+   fixed and thus don't need them have been given an explicit value of "null", when
+   we do not want them to be keyboard focusable.*/
+/* Labels next to the nodes should be automatically positioned. */
+board.options.label.autoPosition = true;
+board.options.label.autoPositionMaxDistance = 45;
+
+/* Some circles representing the UI. */
+const source = board.create('circle',[board.create('point',[-7,-7],{visible: false}),2.0], {  strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true, tabindex:null});
+const areaA = board.create('circle',[board.create('point',[-3,-6],{visible: false}),1.0], {  strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true, dash:3, tabindex:null});
+board.create('text',[-3,-6, "A"], {fixed:true, fontSize:"2em", anchorX:'middle', tabindex:null});
+const areaB = board.create('circle',[board.create('point',[1,-6],{visible: false}),1.0], {  strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true, dash:3, tabindex:null});
+board.create('text',[1,-6, "B"], {fixed:true, fontSize:"2em", anchorX:'middle', tabindex:null});
+/* Some UI buttons later when we have the other logic ready. */
+
+/* These represent the graph state. So called bookkeeping. */
+let nodes = [board.create('point',[0,0], {visible:false, tabindex:null})]; /* hidden point as a padding, so that we start indexing nodes from 1. */
+let edges = {}; /* A map from node to map of node to arrow
+
+/* Convenience functions for finding a node by id. These are JSXGraph object ids. */
+function get_node_index(id) {
+	return nodes.findIndex((node) => node.id == id);
+}
+function get_node_by_id(id) {
+	return nodes[get_node_index(id)];
+}
+
+/* Common UI-logic bits. */
+function is_node_within(node, circle) {
+	return JXG.Math.Geometry.distance([node.X(),node.Y()],[circle.center.X(),circle.center.Y()]) < circle.Radius();
+}
+function get_nodes_within(circle) {
+	return nodes.filter((node) => is_node_within(node, circle));
+}
+
+
+/* The serialiser function. Basically, dump those two lists out in a suitable structure. */
+const serialiser = () => {
+	let serNodes=[];
+	let serEdges=[];
+	for (let i = 1; i < nodes.length; i++) {
+		serNodes.push([nodes[i].X(), nodes[i].Y()]);
+	}
+	for (const [from, others] of Object.entries(edges)) {
+		for (const [to, edge] of Object.entries(others)) {
+		  	serEdges.push([get_node_index(from), get_node_index(to)]);
+		}
+	}
+	/* Sort that list, for the Maxima side use. */
+	serEdges.sort((a,b) => {
+		let c = a[0] - b[0];
+		if (c === 0) {
+			c = a[1] - b[1];
+		}
+		return c;
+		});
+
+        /* Note how for lists of floats Maxima syntax is exactly the same as JSON. */
+	return "directed_graph(" + JSON.stringify(serNodes) + "," + JSON.stringify(serEdges) + ")";
+};
+
+/* Before the deserialiser we really need to have the tools for manipulation of
+   the state. The deserialiser may create or delete nodes and edges, and we will
+   be doing that elsewhere as well.
+
+   So here are some basic functions.
+*/
+function create_edge(pointA, pointB) {
+        /* Initialise bookkeeping. */
+	if (!(pointA.id in edges)) {
+		edges[pointA.id] = {};
+	}
+	if (pointB.id in (edges[pointA.id])) {
+		/* That edge already exists do not recreate. */
+		return;
+	}
+	/* Create the segment and update the books... */
+	/* let edge = board.create('arrow', [pointA, pointB], {}); */
+        /* To make this more complex lets pick something else as the edges end points, the previous line would work just as well. */
+        let edge = board.create('arrow', [
+           () => {
+             let d = JXG.Math.Geometry.distance([pointA.X(), pointA.Y()], [pointB.X(), pointB.Y()]);
+             if (d>0) {
+              d = 0.32/d;
+             }
+             return([pointA.X() + d*(pointB.X()-pointA.X()), pointA.Y() + d*(pointB.Y()-pointA.Y())]);
+           },
+           () => {
+             let d = JXG.Math.Geometry.distance([pointA.X(), pointA.Y()], [pointB.X(), pointB.Y()]);
+             if (d>0) {
+              d = 0.32/d;
+             }
+             return([pointB.X() - d*(pointB.X()-pointA.X()), pointB.Y() - d*(pointB.Y()-pointA.Y())]);
+           }
+        ], {tabindex:null}); 
+	edges[pointA.id][pointB.id] = edge;
+
+	/* Ensure serialisation of the new state. By triggering an update. */
+	nodes[0].trigger(['update']);
+}
+
+function delete_edge(pointA, pointB) {
+	if (!(pointA.id in edges)) {
+		/* No such edge. */
+		return;
+	}
+	if (pointB.id in (edges[pointA.id])) {
+		/* Remove the edge from the board. */
+		board.removeObject(edges[pointA.id][pointB.id]);
+		/* And from the books. */
+		delete edges[pointA.id][pointB.id];
+	}
+
+	/* Ensure update. */
+	nodes[0].trigger(['update']);
+}
+
+function delete_node(point) {
+	const i = get_node_index(point.id);
+	if (i <= 0) {
+                /* First node is the special padding node, it is hidden and acts as a handle,
+                     we must ensure that no mater what we do not delete it. */
+		return;
+	}
+	/* Delete edges starting from this node. */
+	if (point.id in edges) {
+		for (const [to, edge] of Object.entries(edges[point.id])) {
+			board.removeObject(edge);  	
+		}
+		delete edges[point.id];
+	}
+
+	/* Delete edges ending to this node. */
+	for (const [from, others] of Object.entries(edges)) {
+		for (const [to, edge] of Object.entries(others)) {
+			if (to === point.id) {
+				board.removeObject(edge);
+				delete edges[from][to];
+			}
+		}
+	}
+
+	/* Remove from board. */
+	board.removeObject(point);
+        /* Remove from the books. */
+	nodes = nodes.filter((node) => node != point);
+
+        /* Update labels. We want to have continuous numbering, so that we do not need to keep track of holes in it. */
+        nodes.forEach((n,i) => {n.setAttribute({
+          tabindex:i+5, /* Have the UI buttons occupy the lower indices.*/
+          name:''+i
+        });});
+
+	/* Ensure update. */
+	nodes[0].trigger(['update']);
+}
+
+function create_node(x,y) {
+	var node = board.create('point',[x,y],{name:''+nodes.length, tabindex: nodes.length+4});
+	/* We need to add some UI logic to this node. */
+	node.on('up', () => {
+		if (is_node_within(node, source)) {
+			/* Returned to source, delete it. */
+			delete_node(node);
+		} 
+	});
+        /* Keyboard accessibility requires some extra cases to be handled.*/
+	node.on('keydrag', () => {
+		if (is_node_within(node, source)) {
+			/* Returned to source, delete it. */
+			delete_node(node);
+		} 
+	});
+	nodes.push(node);
+
+	/* As this is a new node that we need to track in the binding we need to register it. */
+	stack_jxg.register_object(state, node, serialiser);
+
+	/* Ensure update. */
+	node.trigger(['up', 'update']);
+}
+
+/* The deserialiser, i.e. the hard part when we can create elements. */
+const deserialiser = (value) => {
+        /* Do some syntax tuning by replacing the wrapper we used. Note that this is not perfect.
+         * That ending `)` might not be unique if the input contains parenthesis, so if students are 
+         * primarily writing in their answers you might need to be more careful here.
+         */
+	let newState = JSON.parse(value.replace('directed_graph(','[').replace(')',']'));
+        let serNodes = newState[0];
+        let serEdges = newState[1];
+
+	/* First sync the nodes. That padding node is the reason for the +1. */
+	while (serNodes.length + 1 < nodes.length) {
+		/* We have extra nodes present in the current state, delete them. */
+		delete_node(nodes[nodes.length - 1]);
+	}
+	for (let i = 0; i < serNodes.length; i++) {
+		if (i+1 < nodes.length) {
+			/* Reposition existing node. */
+			nodes[i+1].setPosition(JXG.COORDS_BY_USER, serNodes[i]);
+		} else {
+			/* Create new node. */
+			create_node(serNodes[i][0], serNodes[i][1]);
+		}
+	}
+
+	/* Then the edges. We basically need to check each existing for deletion
+	   and each new for creation. The easy way to get the list of edges in
+	   the same format is to get it through the `serialiser`. */
+	const oldEdges = JSON.parse(serialiser().replace('directed_graph(','[').replace(')',']'))[1];
+	for (let edge of oldEdges) {
+		if (serEdges.indexOf(edge) < 0) {
+			delete_edge(nodes[edge[0]], nodes[edge[1]]);
+		}
+	}
+	for (let edge of serEdges) {
+		if (oldEdges.indexOf(edge) < 0) {
+			create_edge(nodes[edge[0]], nodes[edge[1]]);
+		}	
+	}
+	board.update();
+};
+
+/* Then lets add a magical point for creating new nodes. If one drags it outside 
+   the circle it will create a new node at that place before returning back. */
+const magicPoint = board.create('point', [source.center.X(), source.center.Y()], {name: '', size: 0.2, sizeUnit: 'user', 'tabindex':0});
+magicPoint.on('up', () => {
+	if (!is_node_within(magicPoint, source)) {
+		create_node(magicPoint.X(), magicPoint.Y());
+	}
+	/* Always return to the source. */
+	magicPoint.setPosition(JXG.COORDS_BY_USER, [source.center.X(), source.center.Y()]);
+	board.update();
+});
+
+/* To deal with accessibility related to keyboard interaction we need to have some alternative for "up"
+  moving the point by keyboard does not lead to "up" but we can try to track where it is.
+ */
+magicPoint.on('keydrag', (evt) => {
+if (!is_node_within(magicPoint, source)) {
+ magicPoint.trigger(['up']);
+}
+});
+
+/* Add logic to the UI with buttons. */
+const connectAB = board.create('button',[-4,-8, 'A → B', () => {
+      for (let nA of get_nodes_within(areaA)) {
+          for (let nB of get_nodes_within(areaB)) { 
+             create_edge(nA, nB);
+          }
+       }
+}],{"cssClass":"connectButton", "highlightCssClass": "connectButton", "tabindex":1});
+const disconnectAB = board.create('button',[-4,-9, 'A ↛ B', () => {
+      for (let nA of get_nodes_within(areaA)) {
+          for (let nB of get_nodes_within(areaB)) { 
+             delete_edge(nA, nB);
+          }
+       }
+}],{"cssClass":"disconnectButton", "highlightCssClass": "disconnectButton", "tabindex":2});
+const connectBA = board.create('button',[0,-8, 'B → A', () => {
+      for (let nB of get_nodes_within(areaB)) {
+          for (let nA of get_nodes_within(areaA)) { 
+             create_edge(nB, nA);
+          }
+       }
+}],{"cssClass":"connectButton", "highlightCssClass": "connectButton", "tabindex":3});
+const disconnectBA = board.create('button',[0,-9, 'B ↛ A', () => {
+      for (let nB of get_nodes_within(areaB)) {
+          for (let nA of get_nodes_within(areaA)) { 
+             delete_edge(nB, nA);
+          }
+       }
+}],{"cssClass":"disconnectButton", "highlightCssClass": "disconnectButton", "tabindex":4});
+
+/* To overide the default style of buttons we can simply clear the style... */
+for (let btn of [connectAB, connectBA, disconnectAB, disconnectBA]) {
+ btn.rendNodeButton.style = '';
+}
+
+/* In the end lets create the default state, like with all the binding functions
+   we must call the binding function after the default has been set. 
+
+   Having this as a template eases reuse. */
+[[template mode="default" name="graph_init_code"]]
+create_node(1.0,2.0);
+create_node(0.0,2.0);
+create_node(1.0,1.0);
+create_edge(nodes[1], nodes[2]);
+create_edge(nodes[1], nodes[3]);
+create_edge(nodes[2], nodes[3]);
+[[/template]]
+
+/* Now in our example the `create_node`-function already registered those points for binding.
+   so the only object we give it is the padding point that we also use as a handle for triggering
+   sync if all other elements have been eliminated. */
+stack_jxg.custom_bind(state, serialiser, deserialiser, [nodes[0]]);
+
+/* After that many changes it may make sense to call board update... */
+board.update();
+[[/jsxgraph]]
+
+<p><i>To add new vertices, drag them from the big circle, and to remove vertices, drag them into the big circle. To construct edges, place the vertices at the ends of the edge to the circles labelled A and B and press the button with the correct arrow.</i></p><p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2024012900</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* This example question demonstrates the use of inert functions as opposed to JSON
+ * as the serialisation format for custom binding JSXGraphs. The primary reason for
+ * doing this is that unlike JSON we can actually tune the presentation of such things.
+ * Why we want to do that is because having the validation box present means that we
+ * also have the input interpretation presentation there and showing raw JSON could
+ * cause some confusion for some students. Also, should the input be directly accessible
+ * to the students they are more likely to be able to modify it if it is in the more
+ * familiar CAS syntax.
+ *
+ * All that is pointless if we do not want to show that validation box or if we do not 
+ * want to provide that alternative accessible input option through the serialised form.
+ *
+ * But if we do show the validation box we can also use the logic behind it to actually
+ * validate the input, which is the primary point of this example. We do that by using
+ * the new bespoke validation feature.
+ */
+
+/* Do note that this question is heavily over engineered and somewhat overly commented
+ * This is very intentional, should you find a way to break this question do let us know
+ * as this might end up being a sample that lives long.
+ */
+
+/*
+ * DGO = Directed Graph Object, our inert function wrapper where the first
+ * encapsulated object is a list of vertex/node positions and the second a list of 
+ * directed edges represented as pairs of node indices.
+ * 
+ * For easier logic we build some tools for turning that inert function to something 
+ * more usable, for example into an adjacency matrix or to a list of connected subgraphs.
+ */
+dgo_to_adj_matrix(dgo):=block([simp,nodes,edges,AM],
+ simp:true,
+ [nodes,edges]:args(dgo),
+ AM:zeromatrix(length(nodes),length(nodes)),
+ for edge in edges do (
+  AM[edge[1],edge[2]]:1
+ ),
+ AM
+);
+
+/*
+ * This function builds subsets of the node indices based on the edge connections 
+ * between nodes. Those subsets represent disjoint parts of the graph.
+ * Nodes that have no edges will not be present in the output.
+ */
+dgo_to_subgraphs(dgo):=block([simp,nodes,edges,n,R,tmp],
+ simp:true,
+ [nodes,edges]:args(dgo),
+ R:map(setify, edges),
+ for n:1 thru length(nodes) do (
+  tmp:sublist(R,lambda([x], elementp(n,x))),
+  if length(tmp) > 1 then (
+   tmp:apply(union, tmp),
+   R:append([tmp], sublist(R,lambda([x], not elementp(n,x))))
+  )
+ ),
+ R
+);
+
+
+/* 
+ * Due to old ideas about preambles and simplified validation sessions we need to 
+ * repeat the logic in the texput rule. Basically, we do not have access to our 
+ * `dgo_to_adj_matrix`-function inside this texput rule. And it needs to be a bit 
+ * more careful as it might be called with invalid indices.
+ *
+ * Note that inline CASText cannot be used inside texput rules, texput rules are
+ * a lower level construct, so we need to do our string construction by hand.
+ * 
+ * Should you wish to localise things here and are missing the CASText [[lang]]-block 
+ * note that you should still be able to use constructs like these:
+ *  
+ *  if %_STACK_LANG = "fi" then "..." else "..."
+ *
+ */
+texput(directed_graph, lambda([dgo],block([simp,AM,nodes,edges,N],
+ simp:true,nodes:[],edges:[],N:0,
+ if length(args(dgo)) = 2 then [nodes,edges]:args(dgo),
+ if listp(nodes) then N: length(nodes),
+ AM:zeromatrix(N,N),
+ if listp(edges) then for edge in edges do (
+  if listp(edge) and length(edge) = 2 and integerp(edge[1]) and integerp(edge[2]) and edge[1]>0 and edge[2]>0 and not edge[1] > N and not edge[2] > N then (
+   AM[edge[1],edge[2]]:1
+  )
+ ),
+ if length(edges) > 0 then 
+  sconcat("\\textrm{Set of ",N," vertices and ",length(edges)," edges, having this adjacency matrix:}", tex1(AM))
+ else if N > 0 then
+  sconcat("\\textrm{Set of ",N," vertices and no edges.}")  
+ else 
+  "\\textrm{No vertices or edges}"
+)));
+
+/* Random utility */
+rowsum(mat):= lsum(x,x,args(transpose(mat)));
+colsum(mat):= lsum(x,x,args(mat));
+
+/* Lets do some validation for the input. 
+ * All we need to do is to build some functions that take the input and either say how
+ * it is bad or return true to signal that it is good.
+ */
+require_dgo(dgo):=block(
+ if not is(safe_op(dgo) = "directed_graph") or not is(length(dgo) = 2) then
+  "The answer to this question needs to be a call to the function <code>directed_graph(list_of_node_xy_positions, list_of_edges_defined_by_pairs_of_indices)</code>"
+ else
+  true
+);
+
+require_2_nodes(dgo):=block([nodes,edges],
+ [nodes,edges]:args(dgo),
+ if (not listp(nodes)) or is(length(nodes) < 2) then 
+  "Your answer needs to have at least two vertices and probably more. Defined as a list of two element lists describing XY-coordinate pairs as the first argument to the function." 
+ else 
+  true
+);
+
+require_edges(dgo):=block([nodes,edges],
+ [nodes,edges]:args(dgo),
+ if (not listp(edges)) or is(length(edges) < 1) then 
+  "Your answer needs to have some edges. To define edges give a list of two element lists as the second argument to the function. The two element pairs declare the indices of the vertices at ends of those edges." 
+ else 
+  true
+);
+
+not_too_many_nodes(dgo):=block([nodes,edges],
+ [nodes,edges]:args(dgo),
+ if length(nodes) > 9 then 
+  "You seem to have too many vertices, please do not try to overload the system with excess vertices." 
+ else 
+  true
+);
+
+/* If people do manual entry we might get some unexpected values. */
+check_pairs(dgo):=block([simp,nodes,edges],
+ simp:true,
+ [nodes,edges]:args(dgo),
+ if length(sublist(nodes, lambda([x], not (listp(x) and is(length(x)=2) and numberp(x[1]) and numberp(x[2]))))) > 0 then
+  "The list of vertices needs to consist of 2 element lists of numerical values."
+ else if length(sublist(edges, lambda([x], not (listp(x) and is(length(x)=2) and integerp(x[1]) and integerp(x[2]))))) > 0 then
+  "The list of edges needs to consist of 2 element lists of integer values."
+ else
+  true
+);
+
+
+check_indices(dgo):=block([simp,nodes,edges,N,tmp],
+ simp:true,
+ [nodes,edges]:args(dgo),
+ tmp:apply(union,map(setify,edges)),
+ if not is(subset(tmp, integerp) = tmp) then
+  "All indices of nodes, when defining edges, must be positive integers."
+ else if lmax(tmp) > length(nodes) then
+  castext("You have only defined {#length(nodes)#} vertices, thus you cannot define an edge to a vertex with an index number of {#lmax(tmp)#}")
+ else if lmin(tmp) < 1 then
+  castext("The lowest vertex index is 1, no edge can end at index {#lmin(tmp)#}")
+ else 
+  true
+);
+
+/* This test is fairly pointless, but if Maxima is a new language to you, do pay attention
+ * to the way the return statement works when mixed with a loop.
+ */
+no_edges_to_self(dgo):=block([simp,nodes,edges,tmp],
+ simp:true,
+ [nodes,edges]:args(dgo),
+ tmp: for edge in edges do (
+  if is(edge[1] = edge[2]) then 
+   return(castext("This question does not accept self-loops, please remove it from vertex {#edge[2]#}."))
+ ),
+ if tmp = done then
+  true
+ else
+  tmp
+);
+
+require_no_orphans(dgo):=block([adjmatrix,simp,ecounts,orphans],
+ simp:true,
+ adjmatrix:dgo_to_adj_matrix(dgo),
+ ecounts: rowsum(adjmatrix) + colsum(adjmatrix),
+ orphans: sublist_indices(ecounts, lambda([x],is(x=0))),
+ if length(orphans) = 0 then 
+  true
+ else if length(orphans) = 1 then
+  castext("All vertices must have edges either in or out, vertex {#orphans[1]#} does not have any.")
+ else 
+  castext("All vertices must have edges either in or out, vertices {@stack_disp_comma_separate(orphans)@} do not have any.")
+);
+
+require_singular_graph(dgo):=block([simp,subgraphs],
+ simp:true,
+ subgraphs:dgo_to_subgraphs(dgo),
+ if length(subgraphs) > 1 then
+  castext("The answer needs to be a singular graph, your answer contains parts that are not connected together. For example, vertices {@stack_disp_comma_separate(listify(subgraphs[1]))@} do not connect to {@stack_disp_comma_separate(listify(subgraphs[2]))@}.")
+ else
+  true
+);
+
+/* Then we combine those separate functions into a single one, in this case using the sequential
+ * utility validator so that we stop on the first failure as checking the latter ones becomes 
+ * irrelevant after it.
+ * 
+ * This function will then be given as a special extra parameter to the input.
+ */
+ans1_validator(ex):= stack_seq_validator(ex, [require_dgo, require_2_nodes, require_edges, not_too_many_nodes, check_pairs, check_indices, no_edges_to_self, require_no_orphans, require_singular_graph]);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>directed_graph([[0,3],[-2.5,-2],[4,-2],[-7,1]],[[1,2],[1,3],[2,1],[2,3],[3,1],[3,2],[4,2]])</tans>
+      <boxsize>50</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords>directed_graph</allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>2</showvalidation>
+      <options>validator:ans1_validator</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>/* No need to care about the shape of the answer here, the validators ensure that
+ * at this point ans1 is what we expect.
+ */
+[nodes,edges]:args(ans1);
+N:length(nodes);
+adj_matrix:dgo_to_adj_matrix(ans1);
+
+/* Now we will see if we can find the connections we expect from the matrix. 
+ * Note that for the first two to function we needed to forbid self-loops. 
+ */
+
+/* Those that fulfill constraint 1. */
+c1: sublist_indices(colsum(adj_matrix), lambda([x],ev(is(x=N-1),simp)));
+
+/* Those that fulfill constraint 2. To understand this understand what `powerset` does. */
+c2: subset(powerset(setify(makelist(x,x,1,N)),3), lambda([x],block([indices,simp,tmp],
+ simp:true,
+ indices:listify(x),
+ tmp:matrix([adj_matrix[indices[1],indices[1]], adj_matrix[indices[1],indices[2]] , adj_matrix[indices[1],indices[3]]],
+            [adj_matrix[indices[2],indices[1]], adj_matrix[indices[2],indices[2]] , adj_matrix[indices[2],indices[3]]],
+            [adj_matrix[indices[3],indices[1]], adj_matrix[indices[3],indices[2]] , adj_matrix[indices[3],indices[3]]]),
+ is(tmp=matrix([0,1,1],[1,0,1],[1,1,0]))
+))
+);
+
+/* Those that fulfill constraint 3. */
+c3: sublist_indices(colsum(adj_matrix), lambda([x],ev(is(x=0),simp)));</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description>Constraint 1</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>c1</sans>
+        <tans>[]</tans>
+        <testoptions></testoptions>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You seem to be missing a node fulfilling constraint 1.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>1/3</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description>Constraint 2</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>c2</sans>
+        <tans>{}</tans>
+        <testoptions></testoptions>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>No set of three nodes fulfilling constraint 2 were found.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>1/3</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description>Constraint 3</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>c3</sans>
+        <tans>[]</tans>
+        <testoptions></testoptions>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>No nodes fulfilling constraint 3 were found.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>1/3</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>directed_graph([[0,3],[-2.5,-2],[4,-2],[-7,1]],[[1,2],[1,3],[2,1],[2,3],[3,1],[3,2],[4,2]])</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Missing condition 3</description>
+      <testinput>
+        <name>ans1</name>
+        <value>directed_graph([[2.5,-0.5],[-3.5,0],[-1,1.5]],[[1,2],[1,3],[2,1],[2,3],[3,1],[3,2]])</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.6670010</expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description><![CDATA[Missing condition 1 & 2]]></description>
+      <testinput>
+        <name>ans1</name>
+        <value>directed_graph([[2,1],[-4.5,0],[-1,1.5],[-7,-3]],[[1,3],[2,1],[2,3],[3,1],[3,2],[4,2]])</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.3330000</expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>prt1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description>Clover</description>
+      <testinput>
+        <name>ans1</name>
+        <value>directed_graph([[-4.5,4],[-4,-0.5],[-1,1.5],[-6,-3.5],[-3,-3.5],[-0.5,-1],[-7,1],[-6.5,-1.5]],[[1,2],[1,3],[2,1],[2,3],[2,5],[2,6],[2,7],[2,8],[3,1],[3,2],[4,2],[5,2],[5,6],[6,2],[6,5],[7,2],[7,8],[8,2],[8,7]])</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 264322  -->
+  <question type="stack">
+    <name>
+      <text>JSXGraph bind function doc</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h2>Common details</h2>
+<p>All bind functions support two way binding, i.e. if the input itself is modified then the graph will be modified as well and the modification of the graph modifies the inputs matching the bound objects. It also makes sure that when the page is reloaded and a value is already in the input the graph will be restored to a configuration matching the value that is in the input.</p>
+<p>None of the binding functions will set the value of the input unless the bound object gets moved. This may be problematic if one has multiple inputs and it is not necessarily natural to move all the objects, yet one has PRTs that only activate once all the inputs have values. To deal with this one can define groups <code>stack_jxg.define_group([point1,point2,slider...])</code> of objects so that moving even one of them triggers all the input tied to them to be filled. In some cases one may even want the inputs to be considered moved from the very start, however in those cases one probably won't give points, to make an object start as moved and thus populate the matching input use <code>stack_jxg.starts_moved(point_or_slider)</code>.</p>
+<p>Currently, the binding function support points and sliders, but other types can be supported in the future. However, acting on these two primitives is often simpler than trying to deal with more complex constructions. There are special functions for dealing with pairs of points i.e. vectors/circles that may prove to be useful for many tasks.</p>
+<p>All floats are in excessive accuracy, this due to the variable geometries and previsions of the display devices and the need to restore the objects to their original positions on page load. You will need to do your own rounding if you show these values to the student in the feedback.</p>
+
+<h2>Basic binding</h2>
+<p><code>stack_jxg.bind_point(input, point)</code> just returns a list with two floating point values:</p>
+<table>
+<tr>
+<td style="width:60%;">[[jsxgraph input-ref-bp="input" width="100%" aspect-ratio="3/2"]]
+ var board = JXG.JSXGraph.initBoard(divid, {axis: true});
+ var p = board.create('point', [1,1], {name:"Bound"});
+ var p2 = board.create('point', [-1,-1], {name:"Not bound"});
+ stack_jxg.bind_point(input, p);
+[[/jsxgraph]]</td>
+<td>
+<pre>
+<code>
+[[escape]]
+[[jsxgraph input-ref-bp="input" width="100%" aspect-ratio="3/2"]]
+ var board = JXG.JSXGraph.initBoard(divid, {axis: true});
+ var p = board.create('point', [1,1], {name:"Bound"});
+ var p2 = board.create('point', [-1,-1], {name:"Not bound"});
+ stack_jxg.bind_point(input, p);
+[[/jsxgraph]]
+[[/escape]]
+</code>
+</pre>
+[[input:bp]]
+<br/>
+[[validation:bp]]
+</td>
+</tr>
+</table>
+
+<p><code>stack_jxg.bind_slider(input, slider)</code> just returns the value of the slider a float:</p>
+<table>
+<tr>
+<td style="width:60%;">[[jsxgraph input-ref-bs="input" width="100%" aspect-ratio="3/2"]]
+ var board = JXG.JSXGraph.initBoard(divid, {axis: true});
+ var s = board.create('slider', [[-2,1],[2,1],[-2,1,2]], {name:"Bound"});
+ stack_jxg.bind_slider(input, s);
+[[/jsxgraph]]</td>
+<td>
+<pre>
+<code>
+[[escape]]
+[[jsxgraph input-ref-bs="input" width="100%" aspect-ratio="3/2"]]
+ var board = JXG.JSXGraph.initBoard(divid, {axis: true});
+ var s = board.create('slider', [[-2,1],[2,1],[-2,1,2]], {name:"Bound"});
+ stack_jxg.bind_slider(input, s);
+[[/jsxgraph]]
+[[/escape]]
+</code>
+</pre>
+[[input:bs]]
+<br/>
+[[validation:bs]]
+</td>
+</tr>
+</table>
+<p><I>At this point we stop showing the validation messages, as they take room.</i></p>
+
+<h2>Dual point binding</h2>
+<p>It is not uncommon to have to represent a vector or any other construction that needs to be defined with two points. We have three distinct forms of functions for this that aim to simplify the grading logic by providing precomputed values for direct use. For example, if the length of a vector or a radius of a circle is the thing that matters the <code>stack_jxg.bind_point_direction</code> might be handy as the second element of the second element in the value is the distance between those two points.</p>
+
+<table>
+<td style="width:60%;">[[jsxgraph input-ref-dp="inputdp" input-ref-dpr="inputdpr" input-ref-dpd="inputdpd" width="100%" aspect-ratio="3/2"]]
+ var board = JXG.JSXGraph.initBoard(divid, {axis: true});
+ var p1 = board.create('point', [1,1], {name:"A"});
+ var p2 = board.create('point', [-1,-1], {name:"B"});
+ board.create('line',[p1,p2], {straightFirst:false, straightLast:false});
+ stack_jxg.bind_point_dual(inputdp, p1, p2);
+ stack_jxg.bind_point_relative(inputdpr, p1, p2);
+ stack_jxg.bind_point_direction(inputdpd, p1, p2);
+[[/jsxgraph]]</td>
+<td>
+<pre>
+<code>
+[[escape]]
+[[jsxgraph input-ref-dp="inputdp" input-ref-dpr="inputdpr"
+  input-ref-dpd="inputdpd" width="100%" aspect-ratio="3/2"]]
+ var board = JXG.JSXGraph.initBoard(divid, {axis: true});
+ var p1 = board.create('point', [1,1], {name:"A"});
+ var p2 = board.create('point', [-1,-1], {name:"B"});
+ board.create('line',[p1,p2], {straightFirst:false, straightLast:false});
+ stack_jxg.bind_point_dual(inputdp, p1, p2);
+ stack_jxg.bind_point_relative(inputdpr, p1, p2);
+ stack_jxg.bind_point_direction(inputdpd, p1, p2);
+[[/jsxgraph]]
+[[/escape]]
+</code>
+</pre>
+dual: [[input:dp]]
+<br/>
+relative: [[input:dpr]]
+<br/>
+direction: [[input:dpd]]
+<br/>
+</td>
+</tr>
+</table>
+
+<h2>Multi object binding</h2>
+<p>As stated earlier one may find oneself in trouble if there are multiple inputs tied to distinct objects and one's grading depends on all the inputs receiving values. In these examples the first one has three points of which A and B are bound to separate inputs and all three are bound to the third input, you should see that moving any point will populate the third input but will not populate the inputs bound to A or B if the moved point is not A or B. The three points to one input binding has been done with <code> stack_jxg.bind_list_of(input, [point1,point2,slider....])</code>, which will accept any number of objects as long as they are points or sliders and the number does not change during the lifecycle of this question variant.</p>
+
+<table>
+<td style="width:60%;">[[jsxgraph input-ref-p1="input1" input-ref-p2="input2" input-ref-poly="inputpoly" width="100%" aspect-ratio="3/2"]]
+ var board = JXG.JSXGraph.initBoard(divid, {axis: true});
+ var p1 = board.create('point', [1,1], {name:"A"});
+ var p2 = board.create('point', [-1,-1], {name:"B"});
+ var p3 = board.create('point', [0,-2], {name:"C"});
+ stack_jxg.bind_point(input1, p1);
+ stack_jxg.bind_point(input2, p2);
+ stack_jxg.bind_list_of(inputpoly, [p1,p2,p3]);
+[[/jsxgraph]]</td>
+<td>
+<pre>
+<code>
+[[escape]]
+[[jsxgraph input-ref-p1="input1" input-ref-p2="input2"
+  input-ref-poly="inputpoly" width="100%" aspect-ratio="3/2"]]
+ var board = JXG.JSXGraph.initBoard(divid, {axis: true});
+ var p1 = board.create('point', [1,1], {name:"A"});
+ var p2 = board.create('point', [-1,-1], {name:"B"});
+ var p3 = board.create('point', [0,-2], {name:"C"});
+ stack_jxg.bind_point(input1, p1);
+ stack_jxg.bind_point(input2, p2);
+ stack_jxg.bind_list_of(inputpoly, [p1,p2,p3]);
+[[/jsxgraph]]
+[[/escape]]
+</code>
+</pre>
+p1: [[input:p1]]
+<br/>
+p2: [[input:p2]]
+<br/>
+poly: [[input:poly]]
+<br/>
+</td>
+</tr>
+</table>
+
+<p>If one wants A or B-point to be considered moved when others move one can use <code>stack_jxg.define_group([point,slider...])</code> to define that it is part of a set of objects that are to be considered as one from the binding logics point of view. Note that a group will only trigger serialisation for its members and not for the groups of its members so if an object belongs to multiple groups movement does not propagate to other groups unless that object was actually moved.</p>
+<table>
+<td style="width:60%;">[[jsxgraph input-ref-p1b="input1" input-ref-p2b="input2" input-ref-polyb="inputpoly" width="100%" aspect-ratio="3/2"]]
+ var board = JXG.JSXGraph.initBoard(divid, {axis: true});
+ var p1 = board.create('point', [1,1], {name:"A"});
+ var p2 = board.create('point', [-1,-1], {name:"B"});
+ var p3 = board.create('point', [0,-2], {name:"C"});
+ stack_jxg.bind_point(input1, p1);
+ stack_jxg.bind_point(input2, p2);
+ stack_jxg.bind_list_of(inputpoly, [p1,p2,p3]);
+ stack_jxg.define_group([p1,p2,p3]);
+[[/jsxgraph]]</td>
+<td>
+<pre>
+<code>
+[[escape]]
+[[jsxgraph input-ref-p1b="input1" input-ref-p2b="input2"
+  input-ref-polyb="inputpoly" width="100%" aspect-ratio="3/2"]]
+ var board = JXG.JSXGraph.initBoard(divid, {axis: true});
+ var p1 = board.create('point', [1,1], {name:"A"});
+ var p2 = board.create('point', [-1,-1], {name:"B"});
+ var p3 = board.create('point', [0,-2], {name:"C"});
+ stack_jxg.bind_point(input1, p1);
+ stack_jxg.bind_point(input2, p2);
+ stack_jxg.bind_list_of(inputpoly, [p1,p2,p3]);
+ stack_jxg.define_group([p1,p2,p3]);
+[[/jsxgraph]]
+[[/escape]]
+</code>
+</pre>
+p1: [[input:p1b]]
+<br/>
+p2: [[input:p2b]]
+<br/>
+poly: [[input:polyb]]
+<br/>
+</td>
+</tr>
+</table>
+
+<h2>Custom binding</h2>
+<p>The existing binding functions are relatively simple and mainly aim to numbers into the CAS, you can however use custom binding to define more complex serialization and deserialization logic for your own objects. If you go for this you will probably use JSON to encode structures and will have to deal with the STACK JSON parser. The major benefit here is that you may add arbitrarily complex rules in your serialization as well as make it work with varying numbers of elements.</p>
+<p>To do a custom bind you use the <code>stack_jxg.custom_bind(inputName, serializerFunction, desearializerFunction, listOfObjects)</code>-function and should you need to connect more objects to that same input it is assumed that your (de)serialization-functions can do it and that you use <code>stack_jxg.register_object(inputName, object, serializerFunction)</code> to register any objects added after the initial custom bind. However, if you need to use it you are probably going to replace the whole operation logic anyway, just note that the rules for restoring, movement and starting as moved work as long as things are registered, if not then you will need to implement your own logic.</p>
+<p>In this example, we represent point coordinates in a slightly different way, note that the input here is a string input as it needs to be able to accept JSON-objects and those are not something the normal inputs accept:</p>
+
+<table>
+<td style="width:60%;">[[jsxgraph input-ref-custom="input" width="100%" aspect-ratio="3/2"]]
+ var board = JXG.JSXGraph.initBoard(divid, {axis: true});
+ var points = [];
+ for (var i=0; i<10; i++) {
+  points.push(board.create('point', [10*(Math.random()-0.5),10*(Math.random()-0.5)]));
+ }
+ var serializer = () => {
+  var r = [];
+  for (var i=0; i < points.length; i++) {
+   r.push({x:points[i].X(),y:points[i].Y()});
+  }
+  return JSON.stringify(r);
+ }; 
+ var deserializer = (value) => {
+  var tmp = JSON.parse(value);
+  for (var i=0; i < points.length; i++) {
+   points[i].setPosition(JXG.COORDS_BY_USER,[tmp[i].x,tmp[i].y]);
+   points[i].update();
+  }
+  points[0].board.update();
+ };
+
+ stack_jxg.custom_bind(input, serializer, deserializer, points);
+[[/jsxgraph]]</td>
+<td>
+<pre>
+<code>
+[[escape]]
+[[jsxgraph input-ref-custom="input" width="100%" aspect-ratio="3/2"]]
+ var board = JXG.JSXGraph.initBoard(divid, {axis: true});
+ var points = [];
+ for (var i=0; i<10; i++) {
+  points.push(board.create('point', [10*(Math.random()-0.5),10*(Math.random()-0.5)]));
+ }
+ var serializer = () => {
+  var r = [];
+  for (var i=0; i < points.length; i++) {
+   r.push({x:points[i].X(),y:points[i].Y()});
+  }
+  return JSON.stringify(r);
+ }; 
+ var deserializer = (value) => {
+  var tmp = JSON.parse(value);
+  for (var i=0; i < points.length; i++) {
+   points[i].setPosition(JXG.COORDS_BY_USER,[tmp[i].x,tmp[i].y]);
+   points[i].update();
+  }
+  points[0].board.update();
+ };
+
+ stack_jxg.custom_bind(input, serializer, deserializer, points);
+[[/jsxgraph]]
+[[/escape]]
+</code>
+</pre>
+[[input:custom]]
+<br/>
+</td>
+</tr>
+</table>
+
+
+
+[[if test="false"]]
+Oh no it does not.
+The question text must contain the token '[[validation:dp]]'. The question text must contain the token '[[validation:dpr]]'. The question text must contain the token '[[validation:dpd]]'. The question text must contain the token '[[validation:p1]]'. The question text must contain the token '[[validation:p2]]'. The question text must contain the token '[[validation:poly]]'. The question text must contain the token '[[validation:p1b]]'. The question text must contain the token '[[validation:p2b]]'. The question text must contain the token '[[validation:polyb]]'. The question text must contain the token '[[validation:custom]]'. 
+[[/if]]]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2021110400</text>
+    </stackversion>
+    <questionvariables>
+      <text></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>bp</name>
+      <type>algebraic</type>
+      <tans>[2,-2]</tans>
+      <boxsize>50</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>bs</name>
+      <type>algebraic</type>
+      <tans>0.766</tans>
+      <boxsize>50</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>custom</name>
+      <type>string</type>
+      <tans><![CDATA["foo"]]></tans>
+      <boxsize>50</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>dp</name>
+      <type>algebraic</type>
+      <tans>[[2,1],[-1,-1]]</tans>
+      <boxsize>50</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>dpd</name>
+      <type>algebraic</type>
+      <tans>[[2,1],[-2.5535900500422257,3.605551275463989]]</tans>
+      <boxsize>50</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>dpr</name>
+      <type>algebraic</type>
+      <tans>[[2,1],[-3,-2]]</tans>
+      <boxsize>50</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>p1</name>
+      <type>algebraic</type>
+      <tans>[1,2]</tans>
+      <boxsize>50</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>p1b</name>
+      <type>algebraic</type>
+      <tans>[1,2]</tans>
+      <boxsize>50</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>p2</name>
+      <type>algebraic</type>
+      <tans>[1,-2]</tans>
+      <boxsize>50</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>p2b</name>
+      <type>algebraic</type>
+      <tans>[1,-2]</tans>
+      <boxsize>50</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>poly</name>
+      <type>algebraic</type>
+      <tans>[[1,1],[-1,-1],[0,-2]]</tans>
+      <boxsize>50</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>polyb</name>
+      <type>algebraic</type>
+      <tans>[[1,1],[-1,-1],[0,-2]]</tans>
+      <boxsize>50</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>1</sans>
+        <tans>1</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>bp</name>
+        <value>[2,-2]</value>
+      </testinput>
+      <testinput>
+        <name>bs</name>
+        <value>0.766</value>
+      </testinput>
+      <testinput>
+        <name>custom</name>
+        <value><![CDATA["foo"]]></value>
+      </testinput>
+      <testinput>
+        <name>dp</name>
+        <value>[[2,1],[-1,-1]]</value>
+      </testinput>
+      <testinput>
+        <name>dpd</name>
+        <value>[[2,1],[-2.5535900500422257,3.605551275463989]]</value>
+      </testinput>
+      <testinput>
+        <name>dpr</name>
+        <value>[[2,1],[-3,-2]]</value>
+      </testinput>
+      <testinput>
+        <name>p1</name>
+        <value>[1,2]</value>
+      </testinput>
+      <testinput>
+        <name>p1b</name>
+        <value>[1,2]</value>
+      </testinput>
+      <testinput>
+        <name>p2</name>
+        <value>[1,-2]</value>
+      </testinput>
+      <testinput>
+        <name>p2b</name>
+        <value>[1,-2]</value>
+      </testinput>
+      <testinput>
+        <name>poly</name>
+        <value>[[1,1],[-1,-1],[0,-2]]</value>
+      </testinput>
+      <testinput>
+        <name>polyb</name>
+        <value>[[1,1],[-1,-1],[0,-2]]</value>
+      </testinput>
+      <expected>
+        <name>prt</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 264301  -->
+  <question type="stack">
+    <name>
+      <text>Line parallel to graph</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Drag the point \(A\) so that the line \(OA\) is parallel to the function graph of \(f(x) = {@expr@}\).</p>
+
+[[jsxgraph  input-ref-ans1="ref_A"]]
+var board = JXG.JSXGraph.initBoard(divid, {
+    axis: true,
+    showCopyright: false,
+    showNavigation: false,
+    boundingbox: [-6, 6, 6, -6],
+    keepaspectratio: true,
+    grid:true
+});
+
+var pO = board.create('point', [0, 0], {name: 'O', fixed: true, color: "blue" });
+var pA = board.create('point', {# A_init #}, { name: 'A', snapToGrid:true, snapSizeX:0.2, snapSizeY:0.2 });
+var line = board.create('line', [pO, pA], { fixed: true });
+
+stack_jxg.bind_point(ref_A, pA);
+[[/jsxgraph]]
+
+<p style="display:none">[[input:ans1]] [[validation:ans1]] </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2025012100</text>
+    </stackversion>
+    <questionvariables>
+      <text>slope: rand([1/2, 3/2, 2]);
+intercept: rand_with_step(-3, -1, 1);
+expr: slope*x + intercept;  /* our function f(x) */
+ta1: [2, 2 * float(slope)];  /* A correct answer for A with integer coordinates */
+
+xA_init: 1 + rand(3);
+yA_init: -1 - rand(3);
+A_init: [xA_init, yA_init];  /* Initial position of A */</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text><![CDATA[\(f(x) = {@expr@}\)<br>
+\(A = {@ta1@}, A_{init} = {@A_init@}\)]]></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>hideanswer</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>student_slope: ans1[2]/ans1[1];</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>NumRelative</answertest>
+        <sans>student_slope</sans>
+        <tans>slope</tans>
+        <testoptions>0.02</testoptions>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The slope of your line is different from the slope of {@expr@}, see below:</p>
+
+[[jsxgraph]]
+var board = JXG.JSXGraph.initBoard(divid, {
+    axis: true,
+    showCopyright: false,
+    showNavigation: false,
+    boundingbox: [-6, 6, 6, -6],
+    keepaspectratio: true,
+    grid:true
+});
+
+var pO = board.create('point', [0, 0], {name: 'O', fixed: true, color: "blue" });
+var pA = board.create('point', {# ans1 #}, { name: 'A',  fixed: true});
+var line = board.create('line', [pO, pA], { fixed: true });
+var graph = board.create('functiongraph', '{#expr#}' , {name:'{#expr#}', withLabel: true});
+[[/jsxgraph]]]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1087841721</deployedseed>
+    <deployedseed>1423895478</deployedseed>
+    <deployedseed>334985751</deployedseed>
+    <deployedseed>1002610041</deployedseed>
+    <deployedseed>1924126921</deployedseed>
+    <deployedseed>1898273712</deployedseed>
+    <deployedseed>1441446943</deployedseed>
+    <deployedseed>1990039778</deployedseed>
+    <deployedseed>1852419708</deployedseed>
+    <deployedseed>1325137336</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 264320  -->
+  <question type="stack">
+    <name>
+      <text>Line parallel to graph</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Drag the point \(A\) so that the line \(OA\) is parallel to the function graph of \(f(x) = {@expr@}\).</p>
+
+[[jsxgraph  input-ref-ans1="ref_A"]]
+var board = JXG.JSXGraph.initBoard(divid, {
+    axis: true,
+    showCopyright: false,
+    showNavigation: false,
+    boundingbox: [-6, 6, 6, -6],
+    keepaspectratio: true,
+    grid:true
+});
+
+var pO = board.create('point', [0, 0], {name: 'O', fixed: true, color: "blue" });
+var pA = board.create('point', {# A_init #}, { name: 'A', snapToGrid:true, snapSizeX:0.2, snapSizeY:0.2 });
+var line = board.create('line', [pO, pA], { fixed: true });
+
+stack_jxg.bind_point(ref_A, pA);
+[[/jsxgraph]]
+
+<p style="display:none">[[input:ans1]] [[validation:ans1]] </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2025012100</text>
+    </stackversion>
+    <questionvariables>
+      <text>slope: rand([1/2, 3/2, 2]);
+intercept: rand_with_step(-3, -1, 1);
+expr: slope*x + intercept;  /* our function f(x) */
+ta1: [2, 2 * float(slope)];  /* A correct answer for A with integer coordinates */
+
+xA_init: 1 + rand(3);
+yA_init: -1 - rand(3);
+A_init: [xA_init, yA_init];  /* Initial position of A */</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text><![CDATA[\(f(x) = {@expr@}\)<br>
+\(A = {@ta1@}, A_{init} = {@A_init@}\)]]></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>hideanswer</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>student_slope: ans1[2]/ans1[1];</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>NumRelative</answertest>
+        <sans>student_slope</sans>
+        <tans>slope</tans>
+        <testoptions>0.02</testoptions>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The slope of your line is different from the slope of {@expr@}, see below:</p>
+
+[[jsxgraph]]
+var board = JXG.JSXGraph.initBoard(divid, {
+    axis: true,
+    showCopyright: false,
+    showNavigation: false,
+    boundingbox: [-6, 6, 6, -6],
+    keepaspectratio: true,
+    grid:true
+});
+
+var pO = board.create('point', [0, 0], {name: 'O', fixed: true, color: "blue" });
+var pA = board.create('point', {# ans1 #}, { name: 'A',  fixed: true});
+var line = board.create('line', [pO, pA], { fixed: true });
+var graph = board.create('functiongraph', '{#expr#}' , {name:'{#expr#}', withLabel: true});
+[[/jsxgraph]]]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1087841721</deployedseed>
+    <deployedseed>1423895478</deployedseed>
+    <deployedseed>334985751</deployedseed>
+    <deployedseed>1002610041</deployedseed>
+    <deployedseed>1924126921</deployedseed>
+    <deployedseed>1898273712</deployedseed>
+    <deployedseed>1441446943</deployedseed>
+    <deployedseed>1990039778</deployedseed>
+    <deployedseed>1852419708</deployedseed>
+    <deployedseed>1325137336</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+</quiz>

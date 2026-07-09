@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atomic Structure Explorer Preview</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsxgraph@1.10.1/distrib/jsxgraph.css" />
+  <style>
+    :root {
+      --bg: #f4efe5;
+      --panel: rgba(255, 255, 255, 0.76);
+      --ink: #1f2937;
+      --muted: #5f6b7a;
+      --accent: #1976d2;
+      --shadow: 0 18px 50px rgba(15, 23, 42, 0.10);
+      --border: rgba(15, 23, 42, 0.10);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(25, 118, 210, 0.10), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(230, 126, 34, 0.08), transparent 28%),
+        var(--bg);
+    }
+
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 22px 20px 28px;
+    }
+
+    .title {
+      margin: 0 0 6px;
+      font-size: 30px;
+      line-height: 1.1;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.35;
+      max-width: 920px;
+    }
+
+    .prompt {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      backdrop-filter: blur(6px);
+    }
+
+    .prompt h2,
+    .prompt h3,
+    .prompt h4 {
+      margin: 0 0 10px;
+      line-height: 1.15;
+    }
+
+    .prompt h2 { font-size: 26px; }
+    .prompt h4 { font-size: 16px; margin-top: 14px; }
+    .prompt p,
+    .prompt li {
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .prompt ul {
+      margin: 8px 0 0 20px;
+      padding: 0;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.75fr) minmax(310px, 0.95fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .board-card,
+    .side-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .board-card {
+      padding: 16px;
+      min-height: 640px;
+    }
+
+    .board-shell {
+      position: relative;
+      min-height: 608px;
+      border-radius: 18px;
+      border: 1px solid #dbe3ee;
+      background: linear-gradient(#ffffff, #fbfcfe);
+      overflow: hidden;
+    }
+
+    #jxgbox {
+      width: 100%;
+      height: 100%;
+      min-height: 608px;
+    }
+
+    .overlay {
+      position: absolute;
+      pointer-events: none;
+      color: #1f2937;
+    }
+
+    .overlay.stats {
+      left: 18px;
+      top: 16px;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .overlay.values {
+      right: 18px;
+      top: 16px;
+      width: 190px;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .overlay.values strong {
+      font-weight: 700;
+    }
+
+    .side-card {
+      padding: 16px 16px 14px;
+      background: linear-gradient(180deg, #fffdf8, #fffaf0);
+    }
+
+    .control {
+      margin-bottom: 22px;
+    }
+
+    .control:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .control-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .control-value {
+      min-width: 42px;
+      text-align: right;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      margin: 0;
+      accent-color: var(--accent);
+    }
+
+    .note {
+      margin-top: 18px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    @media (max-width: 1080px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .board-card {
+        min-height: 540px;
+      }
+
+      .board-shell,
+      #jxgbox {
+        min-height: 500px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1 class="title">Atomic Structure Explorer Preview</h1>
+    <p class="subtitle">Standalone browser preview of the JSXGraph question from your STACK XML. The sliders drive the atomic model and the live values update as you change them.</p>
+
+    <section class="prompt">
+      <h2>Atomic Structure Explorer</h2>
+      <p>Use the sliders to construct the neutral atom described by the parameters below.</p>
+      <p>Your target atom is <strong>Oxygen-16</strong>.</p>
+      <p>Adjust the model until it matches these parameters:</p>
+      <ul>
+        <li>The element name is <strong>Oxygen</strong>.</li>
+        <li>The mass number is <strong>16</strong>.</li>
+        <li>The charge is <strong>0</strong>.</li>
+      </ul>
+      <p>When the model is correct, enter the final answers below and submit. STACK will check your final input.</p>
+    </section>
+
+    <div class="layout">
+      <main class="board-card">
+        <div class="board-shell">
+          <div id="jxgbox"></div>
+          <div class="overlay stats" id="overlayStats"></div>
+          <div class="overlay values" id="overlayValues"></div>
+        </div>
+      </main>
+
+      <aside class="side-card">
+        <div class="control">
+          <div class="control-label"><span>Protons</span><span class="control-value" id="protonReadout">8</span></div>
+          <input id="pRange" type="range" min="1" max="18" step="1" value="8" />
+        </div>
+
+        <div class="control">
+          <div class="control-label"><span>Neutrons</span><span class="control-value" id="neutronReadout">8</span></div>
+          <input id="nRange" type="range" min="0" max="22" step="1" value="8" />
+        </div>
+
+        <div class="control">
+          <div class="control-label"><span>Electrons</span><span class="control-value" id="electronReadout">8</span></div>
+          <input id="eRange" type="range" min="1" max="18" step="1" value="8" />
+        </div>
+
+        <div class="note">
+          This preview uses sample values. In STACK, the values are randomized with the question variables and the hidden answer inputs are checked by the PRT.
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jsxgraph@1.10.1/distrib/jsxgraphcore.js"></script>
+  <script>
+    const elementNames = {
+      1: ['H', 'Hydrogen'], 2: ['He', 'Helium'], 3: ['Li', 'Lithium'], 4: ['Be', 'Beryllium'],
+      5: ['B', 'Boron'], 6: ['C', 'Carbon'], 7: ['N', 'Nitrogen'], 8: ['O', 'Oxygen'],
+      9: ['F', 'Fluorine'], 10: ['Ne', 'Neon'], 11: ['Na', 'Sodium'], 12: ['Mg', 'Magnesium'],
+      13: ['Al', 'Aluminium'], 14: ['Si', 'Silicon'], 15: ['P', 'Phosphorus'], 16: ['S', 'Sulfur'],
+      17: ['Cl', 'Chlorine'], 18: ['Ar', 'Argon']
+    };
+
+    const state = { p: 8, n: 8, e: 8 };
+    const pRange = document.getElementById('pRange');
+    const nRange = document.getElementById('nRange');
+    const eRange = document.getElementById('eRange');
+    const protonReadout = document.getElementById('protonReadout');
+    const neutronReadout = document.getElementById('neutronReadout');
+    const electronReadout = document.getElementById('electronReadout');
+    const overlayStats = document.getElementById('overlayStats');
+    const overlayValues = document.getElementById('overlayValues');
+    const animationState = { phase: 0, lastTime: null };
+
+    const board = JXG.JSXGraph.initBoard('jxgbox', {
+      boundingbox: [-7.2, 6.8, 7.2, -6.8],
+      axis: false,
+      showCopyright: false,
+      showNavigation: false,
+      keepAspectRatio: true
+    });
+
+    board.create('circle', [[0, 0], 1], {
+      strokeColor: '#1976d2',
+      strokeWidth: 2,
+      fillOpacity: 0.06,
+      fixed: true
+    });
+
+    const shell1 = board.create('circle', [[0, 0], 2], { dash: 2, strokeColor: '#1e88e5', fixed: true });
+    const shell2 = board.create('circle', [[0, 0], 3.3], { dash: 2, strokeColor: '#1e88e5', fixed: true });
+    const shell3 = board.create('circle', [[0, 0], 4.6], { dash: 2, strokeColor: '#1e88e5', fixed: true });
+
+    board.create('text', [-0.28, 0.14, () => elementNames[state.p]?.[0] || '?'], {
+      fontSize: 24,
+      fixed: true
+    });
+
+    const radii = [2, 3.3, 4.6];
+
+    function nucleusCoordinate(index, total, axis, kind) {
+      const count = Math.max(total, 1);
+      const theta = (index * 2.399963229728653 + (kind === 'p' ? 0.35 : 1.05)) % (2 * Math.PI);
+      const ring = Math.floor(index / 6);
+      const radius = 0.08 + ring * 0.12 + (index % 3) * 0.018;
+      const r = Math.min(radius, 0.42) * (kind === 'p' ? 1 : 0.97);
+      return axis === 'x'
+        ? r * Math.cos(theta)
+        : r * Math.sin(theta);
+    }
+
+    const nucleusProtons = [];
+    for (let i = 0; i < 18; i++) {
+      nucleusProtons[i] = board.create('point', [
+        () => nucleusCoordinate(i, Math.round(Number(pRange.value)), 'x', 'p'),
+        () => nucleusCoordinate(i, Math.round(Number(pRange.value)), 'y', 'p')
+      ], {
+        size: 4.4,
+        name: '',
+        withLabel: false,
+        fixed: true,
+        fillColor: '#ef5350',
+        strokeColor: '#c62828'
+      });
+    }
+
+    const nucleusNeutrons = [];
+    for (let i = 0; i < 22; i++) {
+      nucleusNeutrons[i] = board.create('point', [
+        () => nucleusCoordinate(i, Math.round(Number(nRange.value)), 'x', 'n'),
+        () => nucleusCoordinate(i, Math.round(Number(nRange.value)), 'y', 'n')
+      ], {
+        size: 4.4,
+        name: '',
+        withLabel: false,
+        fixed: true,
+        fillColor: '#42a5f5',
+        strokeColor: '#1565c0'
+      });
+    }
+
+    function shellData(index, electronCount) {
+      if (index < 2) {
+        return { shell: 0, pos: index, count: Math.min(electronCount, 2), speed: 0.9 };
+      }
+      if (index < 10) {
+        return { shell: 1, pos: index - 2, count: Math.max(Math.min(electronCount - 2, 8), 1), speed: 0.6 };
+      }
+      return { shell: 2, pos: index - 10, count: Math.max(electronCount - 10, 1), speed: 0.4 };
+    }
+
+    function electronCoordinate(index, axis) {
+      const electronCount = Math.round(Number(eRange.value));
+      if (index >= electronCount) return 20;
+      const data = shellData(index, electronCount);
+      const baseAngle = (2 * Math.PI * data.pos) / data.count;
+      const angle = baseAngle + animationState.phase * data.speed;
+      return axis === 'x'
+        ? radii[data.shell] * Math.cos(angle)
+        : radii[data.shell] * Math.sin(angle);
+    }
+
+    function updateShellVisibility() {
+      const electronCount = Math.round(Number(eRange.value));
+      shell1.setAttribute({ visible: electronCount > 0 });
+      shell2.setAttribute({ visible: electronCount > 2 });
+      shell3.setAttribute({ visible: electronCount > 10 });
+    }
+
+    function updateNucleusVisibility() {
+      const protonCount = Math.round(Number(pRange.value));
+      const neutronCount = Math.round(Number(nRange.value));
+
+      for (let i = 0; i < nucleusProtons.length; i++) {
+        nucleusProtons[i].setAttribute({ visible: i < protonCount });
+      }
+
+      for (let i = 0; i < nucleusNeutrons.length; i++) {
+        nucleusNeutrons[i].setAttribute({ visible: i < neutronCount });
+      }
+    }
+
+    for (let i = 0; i < 18; i++) {
+      board.create('point', [
+        () => electronCoordinate(i, 'x'),
+        () => electronCoordinate(i, 'y')
+      ], {
+        size: 3,
+        name: '',
+        withLabel: false,
+        fixed: true,
+        fillColor: '#111111',
+        strokeColor: '#111111'
+      });
+    }
+
+    function sync() {
+      const p = Math.round(Number(pRange.value));
+      const n = Math.round(Number(nRange.value));
+      const e = Math.round(Number(eRange.value));
+      const [symbol, name] = elementNames[p] || ['?', 'Unknown'];
+      const charge = p - e;
+      const ionSymbol = charge === 0 ? symbol : `${symbol}<sup>${Math.abs(charge) === 1 ? (charge > 0 ? '+' : '-') : `${Math.abs(charge)}${charge > 0 ? '+' : '-'}`}</sup>`;
+
+      state.p = p;
+      state.n = n;
+      state.e = e;
+
+      protonReadout.textContent = p;
+      neutronReadout.textContent = n;
+      electronReadout.textContent = e;
+      updateShellVisibility();
+      updateNucleusVisibility();
+      overlayStats.innerHTML = `Protons: ${p}<br>Neutrons: ${n}<br>Electrons: ${e}`;
+      overlayValues.innerHTML = `Element: <strong>${symbol}</strong><br>Ion: <strong>${ionSymbol}</strong><br>Name: <strong>${name}</strong><br>Mass: <strong>${p + n}</strong><br>Charge: <strong>${charge > 0 ? `+${charge}` : charge}</strong>`;
+      board.update();
+    }
+
+    function animateElectrons(timestamp) {
+      if (animationState.lastTime === null) {
+        animationState.lastTime = timestamp;
+      }
+
+      const delta = timestamp - animationState.lastTime;
+      animationState.lastTime = timestamp;
+      animationState.phase += delta * 0.00045;
+      updateNucleusVisibility();
+      board.update();
+      requestAnimationFrame(animateElectrons);
+    }
+
+    pRange.addEventListener('input', sync);
+    nRange.addEventListener('input', sync);
+    eRange.addEventListener('input', sync);
+
+    sync();
+    requestAnimationFrame(animateElectrons);
+  </script>
+</body>
+</html>

@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pulley A1 Preview</title>
+  <style>
+    :root {
+      --bg: #f3efe7;
+      --panel: #fffdf8;
+      --panel-2: #f8f4ec;
+      --ink: #1f2937;
+      --muted: #5f6b7a;
+      --line: #d9d0c0;
+      --accent: #2563eb;
+      --accent-2: #d97706;
+      --good: #15803d;
+      --shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(37, 99, 235, 0.10), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(217, 119, 6, 0.10), transparent 26%),
+        var(--bg);
+    }
+
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px 18px 28px;
+    }
+
+    .title {
+      margin: 0 0 6px;
+      font-size: 32px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.35;
+      max-width: 72ch;
+    }
+
+    .prompt {
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(15,23,42,0.08);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 18px 20px;
+      margin-bottom: 18px;
+      backdrop-filter: blur(4px);
+    }
+
+    .prompt p {
+      margin: 0 0 12px;
+      line-height: 1.5;
+      font-size: 16px;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) 340px;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .board-panel {
+      padding: 16px;
+    }
+
+    .board-wrap {
+      border: 1px solid #d7cfc0;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #fff 0%, #fcfaf5 100%);
+      padding: 14px;
+    }
+
+    .question-shell {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      margin-top: 18px;
+      align-items: start;
+    }
+
+    .question-card,
+    .sam-card {
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(15,23,42,0.08);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 18px 20px;
+    }
+
+    .question-card h2,
+    .sam-card h2 {
+      margin: 0 0 12px;
+      font-size: 22px;
+    }
+
+    .question-card h3,
+    .sam-card h3 {
+      margin: 18px 0 8px;
+      font-size: 18px;
+    }
+
+    .callout {
+      padding: 12px 14px;
+      background: var(--panel-2);
+      border-left: 4px solid var(--accent);
+      border-radius: 10px;
+      margin: 12px 0 16px;
+      color: var(--ink);
+      line-height: 1.55;
+    }
+
+    .formula {
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background: #fff;
+      border: 1px solid #eadfcb;
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin: 8px 0;
+    }
+
+    .answer-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 10px 0 6px;
+    }
+
+    .answer-box {
+      min-width: 120px;
+      height: 34px;
+      border: 1px solid #cfc6b5;
+      border-radius: 8px;
+      background: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 10px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .button-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 16px 0 0;
+    }
+
+    button {
+      appearance: none;
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.18);
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+
+    .primary { background: var(--accent); color: #fff; }
+    .secondary { background: #fff; color: var(--accent); border: 1px solid #b9c7f3; box-shadow: none; }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .meta {
+      background: #fff;
+      border: 1px solid #eadfcb;
+      border-radius: 12px;
+      padding: 10px 12px;
+      line-height: 1.4;
+    }
+
+    .meta strong {
+      display: block;
+      color: var(--accent-2);
+      margin-bottom: 4px;
+    }
+
+    .diagram-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .sam-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .sam-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .sam-item {
+      background: #fff;
+      border: 1px solid #e7dfcf;
+      border-radius: 12px;
+      padding: 10px 12px;
+      line-height: 1.5;
+    }
+
+    .sam-item strong {
+      color: var(--good);
+    }
+
+    .sam-single {
+      grid-column: 1 / -1;
+    }
+
+    .sam-tile {
+      border: 1px solid #eadfcb;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #fff 0%, #fffdf8 100%);
+      padding: 14px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+    }
+
+    .sam-face {
+      fill: #fff;
+      stroke: #28323f;
+      stroke-width: 2;
+    }
+
+    .sam-eyes {
+      fill: #28323f;
+    }
+
+    .sam-brows {
+      fill: none;
+      stroke: #28323f;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+    }
+
+    .sam-mouth {
+      fill: none;
+      stroke: #28323f;
+      stroke-width: 3;
+      stroke-linecap: round;
+    }
+
+    .sam-body {
+      fill: #ffd66b;
+      stroke: #28323f;
+      stroke-width: 2;
+    }
+
+    .sam-highlight {
+      fill: rgba(255, 255, 255, 0.38);
+    }
+
+    .sam-arms,
+    .sam-legs {
+      stroke: #28323f;
+      stroke-width: 3;
+      stroke-linecap: round;
+      fill: none;
+    }
+
+    .scale-dots {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .scale-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .scale-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #28323f;
+    }
+
+    .scale-caption {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .sam-strip {
+      display: grid;
+      grid-template-columns: 72px repeat(9, minmax(0, 1fr));
+      gap: 8px;
+      align-items: stretch;
+      margin-top: 12px;
+    }
+
+    .scale-label {
+      background: #fff;
+      border: 1px solid #d9d0c0;
+      border-radius: 10px;
+      padding: 10px 8px;
+      display: grid;
+      align-content: center;
+      text-align: center;
+      line-height: 1.05;
+    }
+
+    .scale-label .big {
+      font-size: 34px;
+      font-weight: 700;
+      color: #2f3138;
+    }
+
+    .scale-label .small {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 4px;
+      letter-spacing: 0.01em;
+    }
+
+    .sam-option {
+      position: relative;
+      border: 1px solid #a9a9a9;
+      background: linear-gradient(180deg, #fff 0%, #fbfbfb 100%);
+      border-radius: 8px;
+      min-height: 118px;
+      padding: 6px 4px 30px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    }
+
+    .sam-option:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 16px rgba(15, 23, 42, 0.09);
+    }
+
+    .sam-option.selected {
+      border-color: var(--accent);
+      box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.18);
+    }
+
+    .sam-option .manikin {
+      width: 72px;
+      height: 82px;
+      display: block;
+    }
+
+    .sam-option .num {
+      position: absolute;
+      left: 50%;
+      bottom: 6px;
+      transform: translateX(-50%);
+      font-size: 18px;
+      color: #555;
+      font-weight: 700;
+    }
+
+    .sam-option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .record {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 1100px) {
+      .content,
+      .question-shell {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1 class="title">Post-question Survey Preview</h1>
+    <p class="subtitle">A browser-friendly preview of the SAM / post-question section only.</p>
+
+    <section class="prompt">
+      <p>
+        This page now opens directly to the post-question survey. It keeps the same SAM structure from the STACK question, but removes the physics prompt and answer area.
+      </p>
+    </section>
+
+    <div class="question-shell" style="grid-template-columns: 1fr;">
+      <section id="samSection" class="sam-card">
+        <h2>Post-question review</h2>
+        <p>
+          The following questions are about your experience of solving this specific version of the problem.
+          They are not asking whether your physics answer was correct.
+        </p>
+        <p>Move each slider to a value from <strong>1</strong> to <strong>9</strong>.</p>
+
+        <div class="sam-grid">
+          <div class="sam-item sam-tile">
+            <div class="scale-header">
+              <div class="scale-title">Valence</div>
+              <p class="scale-caption">Select the manikin that best matches how pleasant the experience felt.</p>
+            </div>
+            <div class="sam-strip" id="valenceStrip"></div>
+            <div class="record">Recorded answer: <strong id="valenceValue">5</strong></div>
+          </div>
+
+          <div class="sam-item sam-tile">
+            <div class="scale-header">
+              <div class="scale-title">Arousal</div>
+              <p class="scale-caption">Select the manikin that best matches how calm or activated you felt.</p>
+            </div>
+            <div class="sam-strip" id="arousalStrip"></div>
+            <div class="record">Recorded answer: <strong id="arousalValue">5</strong></div>
+          </div>
+
+          <div class="sam-item sam-tile sam-single">
+            <div class="scale-header">
+              <div class="scale-title">Dominance</div>
+              <p class="scale-caption">Select the manikin that best matches how much in control you felt.</p>
+            </div>
+            <div class="sam-strip" id="dominanceStrip"></div>
+            <div class="record">Recorded answer: <strong id="dominanceValue">5</strong></div>
+          </div>
+
+          <div class="sam-item sam-tile">
+            <strong>Difficulty</strong>
+            <p class="descriptor">How difficult was the question overall?</p>
+            <div class="slider-row">
+              <input id="difficulty" type="range" min="1" max="9" step="1" value="5" />
+              <span class="value-chip" id="difficultyValue">5</span>
+            </div>
+            <div class="scale-dots"><span>Very easy</span><span>Moderate</span><span>Very difficult</span></div>
+          </div>
+
+          <div class="sam-item sam-tile">
+            <strong>Effort</strong>
+            <p class="descriptor">How much effort did it take to solve?</p>
+            <div class="slider-row">
+              <input id="effort" type="range" min="1" max="9" step="1" value="5" />
+              <span class="value-chip" id="effortValue">5</span>
+            </div>
+            <div class="scale-dots"><span>Very low</span><span>Moderate</span><span>Very high</span></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    function svgManikin(expression) {
+      const mouth =
+        expression === 1 ? 'M42 74 Q60 58 78 74' :
+        expression === 2 ? 'M43 74 Q60 62 77 74' :
+        expression === 3 ? 'M44 73 Q60 66 76 73' :
+        expression === 4 ? 'M44 72 Q60 70 76 72' :
+        expression === 5 ? 'M44 72 Q60 72 76 72' :
+        expression === 6 ? 'M44 71 Q60 70 76 71' :
+        expression === 7 ? 'M44 70 Q60 66 76 70' :
+        expression === 8 ? 'M43 68 Q60 62 77 68' :
+        'M42 66 Q60 58 78 66';
+
+      const browLift = expression <= 4 ? 2 : expression >= 6 ? -2 : 0;
+      const armLift = expression <= 4 ? 8 : expression >= 6 ? -4 : 2;
+      const bodyScale = expression >= 6 ? 1.06 : expression <= 4 ? 0.96 : 1;
+      return `
+        <svg viewBox="0 0 120 120" aria-hidden="true" class="manikin">
+          <circle cx="60" cy="60" r="30" fill="#fff" stroke="#2d3640" stroke-width="2" />
+          <path d="M46 ${46 + browLift} L53 ${43 + browLift} M67 ${43 + browLift} L74 ${46 + browLift}" fill="none" stroke="#2d3640" stroke-width="2.2" stroke-linecap="round" />
+          <circle cx="49" cy="52" r="3" fill="#2d3640" />
+          <circle cx="71" cy="52" r="3" fill="#2d3640" />
+          <path d="${mouth}" fill="none" stroke="#2d3640" stroke-width="3" stroke-linecap="round" />
+          <line x1="30" y1="62" x2="12" y2="${50 + armLift}" stroke="#2d3640" stroke-width="3" stroke-linecap="round" />
+          <line x1="90" y1="62" x2="108" y2="${50 + armLift}" stroke="#2d3640" stroke-width="3" stroke-linecap="round" />
+          <line x1="52" y1="89" x2="40" y2="110" stroke="#2d3640" stroke-width="3" stroke-linecap="round" />
+          <line x1="68" y1="89" x2="80" y2="110" stroke="#2d3640" stroke-width="3" stroke-linecap="round" />
+          <circle cx="60" cy="92" r="${12 * bodyScale}" fill="#ffd66b" stroke="#2d3640" stroke-width="2" />
+        </svg>`;
+    }
+
+    function buildStrip(containerId, scaleName, valueId) {
+      const container = document.getElementById(containerId);
+      const valueDisplay = document.getElementById(valueId);
+      container.innerHTML = '';
+
+      const label = document.createElement('div');
+      label.className = 'scale-label';
+      label.innerHTML = `<div class="big">${scaleName.charAt(0)}</div><div class="small">${scaleName}</div>`;
+      container.appendChild(label);
+
+      for (let i = 1; i <= 9; i++) {
+        const option = document.createElement('label');
+        option.className = 'sam-option';
+        option.dataset.value = String(i);
+        option.innerHTML = `
+          <input type="radio" name="${containerId}" value="${i}" ${i === 5 ? 'checked' : ''} />
+          ${svgManikin(i)}
+          <div class="num">${i}</div>
+        `;
+        option.addEventListener('click', () => {
+          setSelection(containerId, i, valueDisplay);
+        });
+        container.appendChild(option);
+      }
+
+      setSelection(containerId, 5, valueDisplay, true);
+    }
+
+    function setSelection(containerId, value, display, silent) {
+      const container = document.getElementById(containerId);
+      container.querySelectorAll('.sam-option').forEach(option => {
+        const selected = Number(option.dataset.value) === Number(value);
+        option.classList.toggle('selected', selected);
+        const input = option.querySelector('input');
+        if (input) input.checked = selected;
+      });
+      display.textContent = String(value);
+      if (!silent) display.dataset.recorded = String(value);
+    }
+
+    buildStrip('valenceStrip', 'Pleasure', 'valenceValue');
+    buildStrip('arousalStrip', 'Arousal', 'arousalValue');
+    buildStrip('dominanceStrip', 'Dominance', 'dominanceValue');
+
+    [
+      ['difficulty', 'difficultyValue'],
+      ['effort', 'effortValue']
+    ].forEach(([rangeId, valueId]) => {
+      const range = document.getElementById(rangeId);
+      const value = document.getElementById(valueId);
+      range.addEventListener('input', () => value.textContent = range.value);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: atom-ion-preview -->
+  <question type="stack">
+    <name>
+      <text>Identifying element symbol and ionic charge</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Use the diagram to identify the element symbol and the ionic charge.</p>
+
+<p><strong>Element symbol:</strong> [[input:ans1]] [[validation:ans1]]</p>
+<p><strong>Ionic charge:</strong> [[input:ans2]] [[validation:ans2]]</p>
+
+<p>Remember: ion notation is written as the element symbol with the charge shown as a superscript.</p>
+
+[[jsxgraph]]
+var board = JXG.JSXGraph.initBoard('jxgbox', {
+  boundingbox: [-7.2, 6.8, 7.2, -6.8],
+  keepAspectRatio: true,
+  showCopyright: false,
+  showNavigation: false,
+  axis: false
+});
+
+var p = {#target_protons#};
+var n = {#target_neutrons#};
+var e = {#target_electrons#};
+var symbol = '{#element_symbol#}';
+
+board.create('circle', [[0, 0], 1], {
+  strokeColor: '#1976d2',
+  strokeWidth: 2,
+  fillOpacity: 0.06,
+  fixed: true
+});
+
+board.create('circle', [[0, 0], 2], { dash: 2, strokeColor: '#1e88e5', fixed: true });
+board.create('circle', [[0, 0], 3.3], { dash: 2, strokeColor: '#1e88e5', fixed: true });
+board.create('circle', [[0, 0], 4.6], { dash: 2, strokeColor: '#1e88e5', fixed: true });
+
+board.create('text', [-0.28, 0.14, symbol], {
+  fontSize: 24,
+  fixed: true
+});
+
+board.create('text', [-6.5, 6.0, function () { return 'Protons: ' + p; }], { fontSize: 14, fixed: true });
+board.create('text', [-6.5, 5.4, function () { return 'Neutrons: ' + n; }], { fontSize: 14, fixed: true });
+board.create('text', [-6.5, 4.8, function () { return 'Electrons: ' + e; }], { fontSize: 14, fixed: true });
+
+var radii = [2, 3.3, 4.6];
+for (let i = 0; i < e; i++) {
+  var shell = 0;
+  var pos = i;
+  var count = Math.min(e, 2);
+
+  if (i >= 10) {
+    shell = 2;
+    pos = i - 10;
+    count = Math.max(e - 10, 1);
+  } else if (i >= 2) {
+    shell = 1;
+    pos = i - 2;
+    count = Math.max(Math.min(e - 2, 8), 1);
+  }
+
+  var angle = 2 * Math.PI * pos / count;
+  board.create('point', [
+    radii[shell] * Math.cos(angle),
+    radii[shell] * Math.sin(angle)
+  ], {
+    size: 3,
+    name: '',
+    withLabel: false,
+    fixed: true,
+    fillColor: '#e46f0e',
+    strokeColor: '#e46f0e'
+  });
+}
+[[/jsxgraph]]</p>]]></text>
+
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<h3>Worked solution</h3>
+<p>The element symbol is {@element_symbol@} and the charge is {@target_charge@}.</p>
+<p>The ion notation is {@element_symbol@}<sup>{@ion_charge_sup@}</sup>.</p>
+<p>Charge is found by subtracting the number of electrons from the number of protons:</p>
+<p>\(\text{charge} = \text{protons} - \text{electrons}\)</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2025012100</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[target_protons:rand([3,4,5,6,7,8,9,10,11,12,13,14,15,16]);
+target_neutrons:rand([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]);
+target_charge:rand([-1,0,1]);
+target_electrons:target_protons-target_charge;
+
+symbols:[Li,Be,B,C,N,O,F,Ne,Na,Mg,Al,Si,P,S];
+names:["Lithium","Beryllium","Boron","Carbon","Nitrogen","Oxygen","Fluorine","Neon","Sodium","Magnesium","Aluminium","Silicon","Phosphorus","Sulfur"];
+idx:target_protons-2;
+element_symbol:symbols[idx];
+element_name:names[idx];
+ion_charge_sup:if target_charge=1 then "+" elseif target_charge=-1 then "-" else "";
+
+ta_symbol:random_permutation([
+  [Li,element_symbol=Li],
+  [Be,element_symbol=Be],
+  [B,element_symbol=B],
+  [C,element_symbol=C],
+  [N,element_symbol=N],
+  [O,element_symbol=O],
+  [F,element_symbol=F],
+  [Ne,element_symbol=Ne],
+  [Na,element_symbol=Na],
+  [Mg,element_symbol=Mg],
+  [Al,element_symbol=Al],
+  [Si,element_symbol=Si],
+  [P,element_symbol=P],
+  [S,element_symbol=S]
+]);
+
+ta_charge:target_charge;
+
+]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[<p>Element: {@element_name@} ({@element_symbol@})</p>
+<p>Ion notation: {@element_symbol@}<sup>{@ion_charge_sup@}</sup></p>]]></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text><![CDATA[<p id="description">Students identify the element symbol and ionic charge from a nucleus model, then learn how to write the ion notation with a superscript charge.</p>]]></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>dropdown</type>
+      <tans>mcq_correct(ta_symbol)[1]</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta_charge</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>0.5000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description>Checks the element symbol.</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>mcq_correct(ta_symbol)[1]</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Correct symbol.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Check the element symbol shown in the center of the diagram.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>0.5000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description>Checks the ionic charge.</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta_charge</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Correct charge.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Remember: charge = protons - electrons.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Checks symbol and charge.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>mcq_correct(ta_symbol)[1]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta_charge</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+</quiz>
