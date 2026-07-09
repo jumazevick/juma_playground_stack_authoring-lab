@@ -218,7 +218,7 @@
       gap: 0;
       align-items: end;
       justify-items: center;
-      padding: 2px 5px 2px;
+      padding: 1px 5px 1px;
       background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.98));
       border: 1px solid rgba(15, 23, 42, 0.08);
       border-radius: 18px;
@@ -242,7 +242,8 @@
       justify-content: center;
       border-radius: 12px;
       border: 1px solid var(--line);
-      background: white;
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+      box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
       cursor: pointer;
       padding: 0;
       transition: transform .08s ease, box-shadow .08s ease, background .12s ease, border-color .12s ease;
@@ -253,7 +254,20 @@
       justify-self: center;
     }
 
-    .manikin-btn:hover { transform: translateY(-2px); }
+    .manikin-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 18px rgba(15, 23, 42, 0.12);
+    }
+
+    .manikin-btn[data-value="1"] { background: linear-gradient(180deg, #fff5f5, #ffd7d7); }
+    .manikin-btn[data-value="2"] { background: linear-gradient(180deg, #fff7ed, #ffe0c2); }
+    .manikin-btn[data-value="3"] { background: linear-gradient(180deg, #fffbeb, #ffebad); }
+    .manikin-btn[data-value="4"] { background: linear-gradient(180deg, #fefce8, #f8e98a); }
+    .manikin-btn[data-value="5"] { background: linear-gradient(180deg, #f0fdf4, #c9f0d2); }
+    .manikin-btn[data-value="6"] { background: linear-gradient(180deg, #ecfeff, #c5f3f6); }
+    .manikin-btn[data-value="7"] { background: linear-gradient(180deg, #eff6ff, #c7ddff); }
+    .manikin-btn[data-value="8"] { background: linear-gradient(180deg, #f5f3ff, #d9d0ff); }
+    .manikin-btn[data-value="9"] { background: linear-gradient(180deg, #fdf2f8, #f4c2e0); }
 
     .manikin-btn.selected {
       background: var(--accent);
