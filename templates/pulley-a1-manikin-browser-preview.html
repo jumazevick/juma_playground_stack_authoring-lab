@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Post-question Review Preview</title>
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --panel: #fffdf8;
+      --ink: #1f2937;
+      --muted: #667085;
+      --line: #e2d7c7;
+      --accent: #b45309;
+      --shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(37, 99, 235, 0.08), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(180, 83, 9, 0.09), transparent 24%),
+        var(--bg);
+    }
+
+    .page {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 24px 18px 36px;
+    }
+
+    .title {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 4vw, 40px);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .subtitle {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.45;
+      max-width: 76ch;
+    }
+
+    .panel {
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(4px);
+      overflow: hidden;
+    }
+
+    .panel-inner {
+      padding: 18px 20px;
+    }
+
+    .hero {
+      display: grid;
+      gap: 12px;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #fff7ed;
+      color: #92400e;
+      border: 1px solid #fdba74;
+      font-size: 13px;
+      font-weight: 700;
+      width: fit-content;
+    }
+
+    .hero p {
+      margin: 0;
+      line-height: 1.6;
+      font-size: 16px;
+      color: #324155;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+      gap: 16px;
+      align-items: start;
+      margin-top: 16px;
+    }
+
+    .question-title {
+      margin: 0 0 10px;
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .question-copy {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
+    .controls {
+      display: grid;
+      gap: 14px;
+    }
+
+    .control {
+      padding: 14px 14px 12px;
+      border: 1px solid #eadfce;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #fff 0%, #fdfaf4 100%);
+      --button-size: 44px;
+      --button-gap: 10px;
+      --button-border: #9aa4b2;
+      --button-selected-bg: #111827;
+      --button-selected-border: #111827;
+    }
+
+    .control h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .control p {
+      margin: 0 0 12px;
+      color: #3f4a59;
+      font-size: 15px;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    .figure {
+      width: min(100%, 720px);
+      margin: 0 auto;
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+    }
+
+    .manikin-image {
+      width: min(100%, 540px);
+      display: block;
+      border-radius: 14px;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      background: #fff;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4);
+    }
+
+    .scale {
+      width: min(100%, 720px);
+      display: grid;
+      grid-template-columns: repeat(9, minmax(0, 1fr));
+      gap: var(--button-gap);
+      align-items: center;
+      justify-items: center;
+      padding: 8px 6px 4px;
+    }
+
+    .scale button {
+      width: var(--button-size);
+      height: var(--button-size);
+      border-radius: 999px;
+      border: 2px solid var(--button-border);
+      background: #fff;
+      cursor: pointer;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .scale button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 16px rgba(15, 23, 42, 0.14);
+      background: #f8fafc;
+    }
+
+    .scale button.selected {
+      background: var(--button-selected-bg);
+      border-color: var(--button-selected-border);
+      box-shadow: 0 0 0 4px rgba(17, 24, 39, 0.18);
+    }
+
+    .scale button.simple::after,
+    .scale button.filled::after,
+    .scale button.soft::after,
+    .scale button.ring::after,
+    .scale button.star::after {
+      content: "";
+      display: block;
+    }
+
+    .scale button.simple::after {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      border: 2px solid currentColor;
+      background: #fff;
+    }
+
+    .scale button.filled::after {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .scale button.soft::after {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 2px solid currentColor;
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.65);
+    }
+
+    .scale button.ring::after {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 3px solid currentColor;
+      background: #fff;
+    }
+
+    .scale button.star::after {
+      width: 18px;
+      height: 18px;
+      background: currentColor;
+      clip-path: polygon(50% 0%, 61% 33%, 95% 35%, 68% 56%, 79% 90%, 50% 70%, 21% 90%, 32% 56%, 5% 35%, 39% 33%);
+    }
+
+    .scale button.selected::after {
+      background: #fff;
+      border-color: #fff;
+    }
+
+    .anchors {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      align-items: center;
+      font-size: 12px;
+      color: #64748b;
+      width: min(100%, 720px);
+      margin: 0 auto;
+    }
+
+    .anchors span:nth-child(1) { text-align: left; }
+    .anchors span:nth-child(2) { text-align: center; }
+    .anchors span:nth-child(3) { text-align: right; }
+
+    .sidebar {
+      display: grid;
+      gap: 16px;
+    }
+
+    .mini-card {
+      padding: 16px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #fff 0%, #fbf8f3 100%);
+      border: 1px solid #eadfce;
+      box-shadow: var(--shadow);
+    }
+
+    .mini-card h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .mini-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .mini-image-row {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .mini-image-row img {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+      border: 1px solid #eadfce;
+      background: #fff;
+    }
+
+    .note {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1d4ed8;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 960px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1 class="title">Post-question Review Only</h1>
+    <p class="subtitle">This browser preview keeps just the survey section and shows the manikin images directly so you can edit spacing, labels, and artwork.</p>
+
+    <div class="panel">
+      <div class="panel-inner hero">
+        <div class="chip">Standalone browser preview</div>
+        <p>This page is trimmed to the post-question review. The physics prompt and answer area were removed so the manikin scale layout is easier to inspect and modify.</p>
+      </div>
+
+      <div class="panel-inner">
+        <div class="layout">
+          <section>
+            <h2 class="question-title">Post-question review</h2>
+            <p class="question-copy">
+              Please consider the way the problem was presented, including its wording, diagrams, layout, colours, and overall structure. Then answer based on your own experience by selecting one button (circle).
+            </p>
+            <p class="question-copy">For each item, select one circle on the scale.</p>
+
+            <div class="controls" id="controls"></div>
+
+            <div class="note">
+              The scales below are plain circles to match the original question style.
+            </div>
+          </section>
+
+          <aside class="sidebar">
+            <div class="mini-card">
+              <h3>Manikin images</h3>
+              <p>These are the actual art assets used for the image-backed scales.</p>
+              <div class="mini-image-row">
+                <img src="../images/pleasure_valence.png" alt="Pleasure or valence manikin scale">
+                <img src="../images/arousal_activation.png" alt="Arousal or activation manikin scale">
+                <img src="../images/dominance_control.png" alt="Dominance or control manikin scale">
+              </div>
+            </div>
+
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const scales = [
+      {
+        name: "Perceived difficulty",
+        prompt: "How difficult did you find this version of the problem to understand and solve?",
+        anchors: ["(1)Very unpleasant", "(5)Neutral", "(9)Very pleasant"],
+        buttonSize: "44px",
+        buttonGap: "10px",
+        buttonVariant: "simple"
+      },
+      {
+        name: "Mental effort",
+        prompt: "Please rate the amount of mental effort you invested in understanding and solving this version of the problem.",
+        anchors: ["(1)Very, very low mental effort", "(5)Neither low nor high mental effort", "(9)Very, very high mental effort"],
+        buttonSize: "40px",
+        buttonGap: "8px",
+        buttonVariant: "soft"
+      },
+      {
+        name: "Pleasure / Valence",
+        prompt: "How pleasant or unpleasant was the experience of solving this version of the problem?",
+        anchors: ["(1)Very unpleasant", "(5)Neutral", "(9)Very pleasant"],
+        image: "../images/pleasure_valence.png",
+        buttonSize: "42px",
+        buttonGap: "10px",
+        buttonBorder: "#94a3b8",
+        buttonSelectedBg: "#0f172a",
+        buttonVariant: "filled"
+      },
+      {
+        name: "Arousal / Activation",
+        prompt: "How calm or excited did you feel while solving this version of the problem?",
+        anchors: ["(1)Very calm", "(5)Neutral", "(9)Very excited"],
+        image: "../images/arousal_activation.png",
+        buttonSize: "42px",
+        buttonGap: "10px",
+        buttonBorder: "#94a3b8",
+        buttonSelectedBg: "#7c2d12",
+        buttonVariant: "ring"
+      },
+      {
+        name: "Dominance / Control",
+        prompt: "How in control did you feel while solving this version of the problem?",
+        anchors: ["(1)Not in control", "(5)Neutral", "(9)Fully in control"],
+        image: "../images/dominance_control.png",
+        buttonSize: "46px",
+        buttonGap: "8px",
+        buttonBorder: "#9ca3af",
+        buttonSelectedBg: "#1f2937",
+        buttonVariant: "star"
+      }
+    ];
+
+    const controls = document.getElementById("controls");
+
+    scales.forEach((scale, scaleIndex) => {
+      const card = document.createElement("div");
+      card.className = "control";
+      card.style.setProperty("--button-size", scale.buttonSize || "44px");
+      card.style.setProperty("--button-gap", scale.buttonGap || "10px");
+      card.style.setProperty("--button-border", scale.buttonBorder || "#9aa4b2");
+      card.style.setProperty("--button-selected-bg", scale.buttonSelectedBg || "#111827");
+      card.style.setProperty("--button-selected-border", scale.buttonSelectedBorder || scale.buttonSelectedBg || "#111827");
+
+      card.innerHTML = `
+        <h3>${scale.name}</h3>
+        <p>${scale.prompt}</p>
+        <div class="figure">
+          ${scale.image ? `<img class="manikin-image" src="${scale.image}" alt="${scale.name} manikin scale">` : ""}
+          <div class="scale" data-scale="${scaleIndex}"></div>
+        </div>
+        <div class="anchors">
+          <span>${scale.anchors[0]}</span>
+          <span>${scale.anchors[1]}</span>
+          <span>${scale.anchors[2]}</span>
+        </div>
+      `;
+
+      const row = card.querySelector(".scale");
+
+      for (let i = 1; i <= 9; i++) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.setAttribute("aria-label", `${scale.name} ${i}`);
+        button.title = String(i);
+        button.innerHTML = "";
+        button.classList.add(scale.buttonVariant || "simple");
+
+        button.addEventListener("click", () => {
+          row.querySelectorAll("button").forEach(btn => btn.classList.remove("selected"));
+          button.classList.add("selected");
+        });
+
+        row.appendChild(button);
+      }
+
+      controls.appendChild(card);
+    });
+  </script>
+</body>
+</html>
